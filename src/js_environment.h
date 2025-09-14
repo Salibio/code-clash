@@ -30,6 +30,8 @@ public:
   void add_method(Dictionary info);
   void _method_finished(String full_path);
 
+  bool is_running() const;
+
   duk_context *ctx{nullptr};
   Dictionary object_methods{};
   Ref<Semaphore> semaphore;

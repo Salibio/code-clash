@@ -10,7 +10,6 @@ var acceleration_up: float
 var acceleration_down: float
 var initial_velocity: float
 var going_up: bool = true
-var done: bool = false
 
 
 func initialize(actor, msg: Dictionary = {}):
@@ -32,11 +31,11 @@ func initialize(actor, msg: Dictionary = {}):
 	# Start movement
 	actor.velocity = direction * initial_velocity
 	going_up = true
-	done = false
+	_to_active()
 
 
 func execute(actor: CharacterBody2D, delta: float):
-	if is_completed(actor):
+	if not is_active(actor):
 		return
 
 	if going_up:
@@ -48,10 +47,11 @@ func execute(actor: CharacterBody2D, delta: float):
 		# Accelerate opposite direction
 		actor.velocity -= direction * acceleration_down * delta
 
+		if actor.is_on_floor():
+			_to_idle()
+
 
 func complete(actor: CharacterBody2D) -> void:
 	actor.velocity = Vector2.ZERO
-	done = true
-
-func is_completed(actor: CharacterBody2D) -> bool:
-	return actor.is_on_floor() and is_zero_approx(actor.velocity.length())
+	going_up = false
+	_to_complete()

@@ -23,14 +23,18 @@ func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 	elapsed = 0.0
 
 	_actor = actor
+	_to_active()
 
 
 func execute(actor: CharacterBody2D, delta: float):
-	if is_completed(actor):
+	if not is_active(actor):
 		return
 
 	elapsed += delta
 	actor.position.x += direction * speed * delta
+
+	if elapsed >= duration:
+		_to_idle()
 
 
 func _physics_process(delta: float) -> void:
@@ -39,7 +43,4 @@ func _physics_process(delta: float) -> void:
 
 func complete(actor: CharacterBody2D) -> void:
 	elapsed = duration
-
-
-func is_completed(actor: CharacterBody2D) -> bool:
-	return elapsed >= duration or is_zero_approx(direction)
+	_to_complete()

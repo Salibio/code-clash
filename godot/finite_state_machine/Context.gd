@@ -10,7 +10,7 @@ func set_var(var_name: StringName, value: Variant) -> void:
 
 
 func get_var(var_name: StringName, default: Variant = null, complain: bool = true) -> Variant:
-	if not _variables.has(var_name):
+	if not _variables.has(var_name) and default == null:
 		push_error("Context: Variable \"{0}\" not found.".format([var_name]))
 	return _variables.get(var_name, default)
 

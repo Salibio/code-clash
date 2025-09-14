@@ -12,11 +12,11 @@ var sprite: AnimatedSprite2D
 
 func _setup(actor: EntityPlayer) -> void:
 	actor.env.add_new_method(
-		"hero", "walk_left", self, "to_walk", [
+		"hero", "walk_left", self, move_cmd, "to_walk", [
 			{"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},
 		])
 	actor.env.add_new_method(
-		"hero", "walk_right", self, "to_walk", [
+		"hero", "walk_right", self, move_cmd, "to_walk", [
 			{"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},
 		])
 
@@ -43,6 +43,16 @@ func _enter(actor: EntityPlayer, previous_state: State) -> void:
 
 
 func _update(actor: EntityPlayer, delta: float) -> void:
+	if OS.is_debug_build() and not move_cmd.is_active(actor) and ctx.get_var("is_keyboard", false):
+		print("is_idle: ", move_cmd.is_idle(actor))
+		if move_cmd.is_idle(actor):
+			transition_to("to_idle")
+		if Input.is_action_pressed("jump"):
+			transition_to("to_jump")
+
+	if not move_cmd.is_active(actor):
+		return
+
 	if move_cmd.is_completed(actor):
 		transition_to("to_idle")
 

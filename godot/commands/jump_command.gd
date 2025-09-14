@@ -13,8 +13,14 @@ func initialize(actor: CharacterBody2D, msg: Dictionary = {}):
 
 	jump_gravity = (2.0 * height) / (time_to_peak * time_to_peak)
 	actor.velocity.y = ((2.0 * height) / time_to_peak) * -1.0
+	_to_active()
 
 
 func execute(actor: CharacterBody2D, delta: float):
+	if not is_active(actor):
+		return
+
 	if actor.velocity.y < 0.0:
 		actor.velocity.y += jump_gravity * delta
+	else:
+		_to_idle()

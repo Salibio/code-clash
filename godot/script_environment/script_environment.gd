@@ -6,11 +6,15 @@ var _method_db: Dictionary = {}
 var _env: JSEnvironment = JSEnvironment.new()
 
 
+func is_running() -> bool:
+	return _env.is_running()
+
+
 func run_async(code: String) -> void:
 	_env.eval_async(code)
 
 
-func add_new_method(object_name: String, method_name: String, end_state: State, dispatch_name: String, param_schema: Array) -> void:
+func add_new_method(object_name: String, method_name: String, end_state: State, cmd: Command, dispatch_name: String, param_schema: Array) -> void:
 	var signature: String = "{0}.{1}".format([object_name, method_name])
 	# TODO: add 'description'
 	_method_db[signature] = {
@@ -18,6 +22,7 @@ func add_new_method(object_name: String, method_name: String, end_state: State, 
 		"method_name": method_name,
 		"dispatch_name": dispatch_name,
 		"end_state": end_state,
+		"cmd": cmd,
 		"params": param_schema,
 	}
 	_env.add_method(_method_db[signature])

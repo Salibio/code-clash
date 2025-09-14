@@ -67,6 +67,7 @@ func _transition_to_next_state(event_name: String) -> void:
 
 	state = _states.get(event_name)
 
+	print("enter: ", state.name)
 	state._enter(actor, previous_state)
 	state.entered.emit()
 

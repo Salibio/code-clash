@@ -4,9 +4,12 @@
 #include "godot_cpp/classes/object.hpp"
 #include "godot_cpp/classes/ref_counted.hpp"
 #include "godot_cpp/core/math.hpp"
+#include "godot_cpp/core/object.hpp"
 #include "godot_cpp/core/print_string.hpp"
+#include "godot_cpp/core/property_info.hpp"
 #include "godot_cpp/variant/callable_method_pointer.hpp"
 #include "godot_cpp/variant/char_string.hpp"
+#include "godot_cpp/variant/variant.hpp"
 #include <array>
 #include <cstddef>
 #include <functional>
@@ -30,6 +33,12 @@ void JSEnvironment::_bind_methods() {
   ClassDB::bind_method(D_METHOD("eval", "code"), &JSEnvironment::eval);
   ClassDB::bind_method(D_METHOD("eval_async", "code"),
                        &JSEnvironment::eval_async);
+
+  ClassDB::bind_method(D_METHOD("is_running"), &JSEnvironment::is_running);
+}
+
+bool JSEnvironment::is_running() const {
+  return running;
 }
 
 void duk_print_error(duk_context *ctx) {
@@ -201,6 +210,7 @@ duk_ret_t c_function(duk_context *ctx) {
   String dispatch_name = method_info["dispatch_name"];
 
   Node *end_state = Object::cast_to<Node>((Object *)method_info["end_state"]);
+  Node *cmd = Object::cast_to<Node>((Object *)method_info["cmd"]);
   RefCounted *context =
       Object::cast_to<RefCounted>((Object *)end_state->get("ctx"));
   context->call("set_var", "method_name", method_name);
@@ -304,11 +314,16 @@ duk_ret_t c_function(duk_context *ctx) {
   }
 
   context->call_deferred("set_var", "args", arguments);
-  end_state->call_deferred(
-      "connect", "exited",
+  // end_state->call_deferred(
+  //     "connect", "exited",
+  //     callable_mp(self, &JSEnvironment::_method_finished).bind(full_path),
+  //     Object::ConnectFlags::CONNECT_ONE_SHOT);
+  cmd->call_deferred(
+      "connect", "idled",
       callable_mp(self, &JSEnvironment::_method_finished).bind(full_path),
       Object::ConnectFlags::CONNECT_ONE_SHOT);
   end_state->call_deferred("transition_to", dispatch_name);
+  print_line("dispatch_name: ", dispatch_name);
 
   self->semaphore->wait();
   return 0;
