@@ -1,17 +1,8 @@
 class_name ScriptEnvironment
-extends Resource
+extends JSEnvironment
 
 
 var _method_db: Dictionary = {}
-var _env: JSEnvironment = JSEnvironment.new()
-
-
-func is_running() -> bool:
-	return _env.is_running()
-
-
-func run_async(code: String) -> void:
-	_env.eval_async(code)
 
 
 func add_new_method(object_name: String, method_name: String, end_state: State, cmd: Command, dispatch_name: String, param_schema: Array) -> void:
@@ -25,7 +16,7 @@ func add_new_method(object_name: String, method_name: String, end_state: State, 
 		"cmd": cmd,
 		"params": param_schema,
 	}
-	_env.add_method(_method_db[signature])
+	add_method(_method_db[signature])
 
 
 func parse_methods(db: Dictionary) -> String:

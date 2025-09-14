@@ -3,6 +3,7 @@
 #include "duk_config.h"
 #include "godot_cpp/classes/node.hpp"
 #include "godot_cpp/classes/ref.hpp"
+#include "godot_cpp/classes/resource.hpp"
 #include "godot_cpp/classes/semaphore.hpp"
 #include "godot_cpp/classes/thread.hpp"
 #include "godot_cpp/classes/wrapped.hpp"
@@ -12,8 +13,8 @@
 
 namespace godot {
 
-class JSEnvironment : public Node {
-  GDCLASS(JSEnvironment, Node)
+class JSEnvironment : public Resource {
+  GDCLASS(JSEnvironment, Resource)
 
 private:
 protected:

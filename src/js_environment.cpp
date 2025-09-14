@@ -35,11 +35,11 @@ void JSEnvironment::_bind_methods() {
                        &JSEnvironment::eval_async);
 
   ClassDB::bind_method(D_METHOD("is_running"), &JSEnvironment::is_running);
+
+  ADD_SIGNAL(MethodInfo("finished"));
 }
 
-bool JSEnvironment::is_running() const {
-  return running;
-}
+bool JSEnvironment::is_running() const { return running; }
 
 void duk_print_error(duk_context *ctx) {
   duk_get_prop_string(ctx, -1, "name");
@@ -100,6 +100,7 @@ void JSEnvironment::eval_async(String code) {
 void JSEnvironment::_eval_pending_code(String code) {
   eval(code);
   running = false;
+  call_deferred("emit_signal", "finished");
 }
 
 void JSEnvironment::_method_finished(String full_path) { semaphore->post(); }
