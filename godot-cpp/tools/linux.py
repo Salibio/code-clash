@@ -1,4 +1,3 @@
-import sys
 import common_compiler_flags
 from SCons.Tool import clang, clangxx
 from SCons.Variables import BoolVariable
@@ -6,7 +5,6 @@ from SCons.Variables import BoolVariable
 
 def options(opts):
     opts.Add(BoolVariable("use_llvm", "Use the LLVM compiler - only effective when targeting Linux", False))
-    opts.Add(BoolVariable("use_mold", "Use the mold linker", False))
     opts.Add(BoolVariable("use_static_cpp", "Link libgcc and libstdc++ statically for better portability", True))
 
 
@@ -49,12 +47,5 @@ def generate(env):
     # Refer to https://github.com/godotengine/godot/blob/master/platform/linuxbsd/detect.py
     if env["lto"] == "auto":
         env["lto"] = "full"
-
-    if env["use_mold"]:
-        if env["use_llvm"]:
-            env.Append(LINKFLAGS=["-fuse-ld=mold"])
-        else:
-            print("Using mold with GCC is not yet available")
-            sys.exit(255)
 
     common_compiler_flags.generate(env)

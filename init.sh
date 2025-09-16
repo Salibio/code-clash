@@ -39,7 +39,7 @@ ansi() {
 }
 
 exist() {
-  command -v "$1" >/dev/null 2>&1
+  command -v "$1" > /dev/null 2>&1
 }
 
 download() {
@@ -90,23 +90,38 @@ init_scons() {
     download "$file" "$url"
   fi
 
+  make_py_script() {
+    local sh_file="$cache_dir/python.sh"
+    rm -rf $sh_file
+    local shebang='#!/bin/bash'
+    local python="exec python $@"
+    printf '%s\n' "$shebang" >> $sh_file
+    printf 'exec %s $@\n' "$1" >> $sh_file
+    chmod +x $sh_file
+  }
+
   local python_bin=""
   if exist python; then
     python_bin="python"
+    make_py_script $python_bin
   elif exist python3; then
     python_bin="python3"
+    make_py_script $python_bin
   elif exist python313; then
     python_bin="python313"
+    make_py_script $python_bin
   elif exist '/c/Program Files/Python313/python'; then
     python_bin="/c/Program Files/Python313/python"
+    make_py_script $python_bin
   fi
 
   if [[ -z $python_bin ]]; then
     cmd //c "$(cygpath -w $file) /passive /norestart InstallAllUsers=1 Include_pip=1 PrependPath=1"
+    make_py_script "/c/Program Files/Python313/python"
   fi
 
-  if ! "$python_bin" -m SCons --version; then
-    "$python_bin" -m pip install scons
+  if ! "$cache_dir/python.sh" -m SCons --version > /dev/null 2>&1; then
+    "$cache_dir/python.sh" -m pip install scons
   fi
 }
 
@@ -145,3 +160,4 @@ echo -e "$(ansi green)Initialized Successfully!$(ansi reset)"
 if ask "Do you want to open godot?"; then
   open ./godot.sh
 fi
+
