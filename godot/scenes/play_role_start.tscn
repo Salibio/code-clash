@@ -15,57 +15,57 @@ texture = ExtResource("1_ev4sg")
 region_rect = Rect2(0, 0, 420, 240)
 modulate_color = Color(0.835294, 0.835294, 0.835294, 0.803922)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4d1t7"]
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oejdk"]
 texture = ExtResource("8_07qmp")
 region_rect = Rect2(123, 310, 84, 127)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_07qmp"]
-texture = ExtResource("8_07qmp")
-region_rect = Rect2(123, 310, 84, 127)
-modulate_color = Color(0.985326, 0.85335, 0.567314, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aacb4"]
 texture = ExtResource("8_07qmp")
 region_rect = Rect2(123, 310, 84, 127)
 modulate_color = Color(0.215902, 0.215902, 0.215902, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_phxxa"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_07qmp"]
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(123, 310, 84, 127)
+modulate_color = Color(0.985326, 0.85335, 0.567314, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ieijo"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4d1t7"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_phxxa"]
 texture = ExtResource("8_07qmp")
 region_rect = Rect2(15, 6, 59, 104)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8rcpu"]
-texture = ExtResource("8_07qmp")
-region_rect = Rect2(15, 6, 59, 104)
-modulate_color = Color(0.984314, 0.854902, 0.568627, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vbqge"]
 texture = ExtResource("8_07qmp")
 region_rect = Rect2(15, 6, 59, 104)
 modulate_color = Color(0.215686, 0.215686, 0.215686, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_phxxa"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8rcpu"]
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(15, 6, 59, 104)
+modulate_color = Color(0.984314, 0.854902, 0.568627, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ieijo"]
 texture = ExtResource("8_07qmp")
 region_rect = Rect2(15, 6, 59, 104)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_07qmp"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_phxxa"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kpwhk"]
 texture = ExtResource("8_07qmp")
 region_rect = Rect2(132, 153, 63, 96)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8042c"]
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(132, 153, 63, 96)
+modulate_color = Color(0.215686, 0.215686, 0.215686, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l7a1c"]
 texture = ExtResource("8_07qmp")
 region_rect = Rect2(132, 153, 63, 96)
 modulate_color = Color(0.984314, 0.854902, 0.568627, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8042c"]
-texture = ExtResource("8_07qmp")
-region_rect = Rect2(132, 153, 63, 96)
-modulate_color = Color(0.215686, 0.215686, 0.215686, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_07qmp"]
 
 [node name="PlayRoleStart" type="Control"]
 layout_mode = 3
@@ -129,15 +129,16 @@ bus = &"SFX"
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
 
 [node name="char_mage_Button" type="Button" parent="TouchScreenButton"]
+texture_filter = 1
 offset_left = 98.0
 offset_top = 183.0
 offset_right = 343.0
 offset_bottom = 468.0
-theme_override_styles/focus = SubResource("StyleBoxEmpty_4d1t7")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_oejdk")
-theme_override_styles/hover = SubResource("StyleBoxTexture_07qmp")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_aacb4")
 theme_override_styles/normal = SubResource("StyleBoxTexture_oejdk")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_aacb4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_07qmp")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_oejdk")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4d1t7")
 
 [node name="des" type="Label" parent="TouchScreenButton/char_mage_Button"]
 layout_mode = 0
@@ -152,20 +153,22 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="char_warrior_Button" type="Button" parent="TouchScreenButton"]
+texture_filter = 1
 offset_left = 484.0
 offset_top = 194.0
 offset_right = 654.0
 offset_bottom = 438.0
-theme_override_styles/focus = SubResource("StyleBoxEmpty_phxxa")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_ieijo")
-theme_override_styles/hover = SubResource("StyleBoxTexture_8rcpu")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_vbqge")
 theme_override_styles/normal = SubResource("StyleBoxTexture_phxxa")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vbqge")
+theme_override_styles/hover = SubResource("StyleBoxTexture_8rcpu")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_ieijo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_phxxa")
 alignment = 2
 icon_alignment = 1
 vertical_icon_alignment = 2
 
 [node name="des" type="Label" parent="TouchScreenButton/char_warrior_Button"]
+layout_mode = 0
 offset_left = 22.0
 offset_top = 231.0
 offset_right = 147.0
@@ -177,17 +180,19 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="char_archer_Button" type="Button" parent="TouchScreenButton"]
+texture_filter = 1
 offset_left = 840.0
 offset_top = 196.0
 offset_right = 1009.0
 offset_bottom = 432.0
-theme_override_styles/focus = SubResource("StyleBoxEmpty_07qmp")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_kpwhk")
-theme_override_styles/hover = SubResource("StyleBoxTexture_l7a1c")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8042c")
 theme_override_styles/normal = SubResource("StyleBoxTexture_kpwhk")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8042c")
+theme_override_styles/hover = SubResource("StyleBoxTexture_l7a1c")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_kpwhk")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_07qmp")
 
 [node name="des" type="Label" parent="TouchScreenButton/char_archer_Button"]
+layout_mode = 0
 offset_left = 20.0
 offset_top = 226.0
 offset_right = 145.0

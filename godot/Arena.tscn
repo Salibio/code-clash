@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="3_i14ea"]
 [ext_resource type="PackedScene" uid="uid://qcrjjeqgf122" path="res://godot/scenes/RedHood.tscn" id="3_rlytp"]
 [ext_resource type="Script" uid="uid://38r2fc733xaa" path="res://godot/commands/jump_command.gd" id="4_rylah"]
-[ext_resource type="Script" uid="uid://ml1jfdu58bxm" path="res://godot/SimulateInput.gd" id="4_sghct"]
+[ext_resource type="Script" uid="uid://ml1jfdu58bxm" path="res://godot/script_environment/SimulateInput.gd" id="4_sghct"]
 [ext_resource type="Script" uid="uid://di16n7fv27a8" path="res://godot/commands/arc_move_command.gd" id="6_uwghf"]
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="8_7bxlx"]
 [ext_resource type="Script" uid="uid://cc0gmnbmja00h" path="res://godot/commands/move_input_command.gd" id="8_sghct"]
@@ -110,9 +110,8 @@ stats = ExtResource("8_7bxlx")
 gsc = NodePath("StateChart")
 metadata/_edit_group_ = true
 
-[node name="SimulateInput" type="Node" parent="Entities/Player" node_paths=PackedStringArray("fsm", "code_edit")]
+[node name="SimulateInput" type="Node" parent="Entities/Player" node_paths=PackedStringArray("code_edit")]
 script = ExtResource("4_sghct")
-fsm = NodePath("")
 code_edit = NodePath("../../../UI/Editor/CodeEdit")
 
 [node name="RedHood" parent="Entities/Player" instance=ExtResource("3_rlytp")]
