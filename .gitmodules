@@ -5,8 +5,3 @@
 [submodule "tree-sitter"]
   url = https://github.com/tree-sitter/tree-sitter.git
   path = src/deps/tree-sitter
-
-[submodule "wren"]
-  url = https://github.com/NexushasTaken/wren.git
-  path = src/deps/wren
-  branch = custom_foreign_fn

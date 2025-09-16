@@ -20,17 +20,11 @@ env.Append(
     "./src/deps/tree-sitter/lib/include/",
     "./src/deps/tree-sitter/lib/src/",
 
-    "./src/deps/wren/src/include/",
-    "./src/deps/wren/src/optional/",
-    "./src/deps/wren/src/vm/",
-
     "./src/deps/duktape/src/",
   ],
 )
 sources = Glob("src/*.cpp")
 sources += Glob("./src/deps/tree-sitter/lib/src/lib.c")
-sources += Glob("./src/deps/wren/src/vm/*.c")
-sources += Glob("./src/deps/wren/src/optional/*.c")
 sources += Glob("./src/deps/duktape/src/duktape.c")
 
 match env["platform"]:
