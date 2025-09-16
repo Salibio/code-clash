@@ -4,7 +4,7 @@ extends State
 @export
 var fall_cmd: FallCommand
 @export
-var move_cmd: MoveCommand
+var move_cmd: MoveInputCommand
 @export
 var stats: EntityStats
 
@@ -16,19 +16,11 @@ func _enter(actor: EntityPlayer, previous_state: State) -> void:
 	})
 
 
-func _update(actor: EntityPlayer, delta: float) -> void:
-	if not actor.is_on_floor() and fall_cmd:
-		fall_cmd.execute(actor, delta)
-
+func _physics_update(actor: EntityPlayer, delta: float) -> void:
 	if actor.is_on_floor():
 		transition_to("to_idle")
-
-	if stats:
-		move_cmd.initialize(actor, {
-			"direction": Input.get_axis("left", "right"),
-			"duration": stats.move_duration,
-			"speed": stats.speed,
-		})
+	else:
+		fall_cmd.execute(actor, delta)
 
 
 func _exit(actor: EntityPlayer) -> void:

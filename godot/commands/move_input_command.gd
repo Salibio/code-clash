@@ -2,30 +2,29 @@ class_name MoveInputCommand
 extends Command
 
 
-var direction: float = 0
+@export
+var sprite: AnimatedSprite2D
+@export
+var key_name: StringName
 var speed: float = 0
 
 
-func initialize(actor, msg: Dictionary = {}):
-  assert(msg.has("speed") and msg["speed"] is float)
-  assert(msg.has("direction") and msg["direction"] is int)
+func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
+	speed = get_var(msg, "speed", typeof(speed))
 
-  speed = msg["speed"]
-  direction = sign(msg["direction"])
-
-
-func execute(actor: CharacterBody2D, delta: float):
-  if direction:
-    actor.velocity.x = direction * speed
-  else:
-    actor.velocity.x = move_toward(actor.velocity.x, 0, speed)
+	sprite.play(key_name)
+	_to_active()
 
 
-func complete(actor: CharacterBody2D) -> void:
-  actor.velocity.x = 0
+func execute(actor: EntityPlayer, delta: float) -> void:
+	var direction := Input.get_axis("left", "right")
 
+	if direction:
+		actor.velocity.x = direction * speed
+	else:
+		actor.velocity.x = move_toward(actor.velocity.x, 0, speed)
+		if is_zero_approx(actor.velocity.x):
+			_to_complete()
 
-# TODO: should we implement this?
-func is_complete(actor: CharacterBody2D) -> bool:
-  assert(false, name + ".is_complete() not implemented")
-  return false
+	if signf(actor.velocity.x) != 0:
+		actor.sprite.flip_h = actor.velocity.x < 0

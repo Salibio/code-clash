@@ -19,8 +19,12 @@ var _status: Status = Status.Complete
 func initialize(actor, msg: Dictionary = {}) -> void
 
 
-@abstract
-func execute(actor, delta: float) -> void
+func set_msg(actor, msg: Dictionary) -> void:
+	push_error(name, ".set_msg() not implemented.")
+
+
+func execute(actor, delta: float) -> void:
+	pass
 
 
 func complete(actor) -> void:
@@ -52,3 +56,10 @@ func _to_idle() -> void:
 func _to_complete() -> void:
 	_status = Status.Complete
 	completed.emit()
+
+
+func get_var(msg: Dictionary, var_name: StringName, expected_type: Variant.Type) -> Variant:
+	assert(msg.has(var_name), "{0} is expected.".format([var_name]))
+	assert(typeof(msg[var_name]) == expected_type, "{0} is expected to be of type {1}, but got {2}."
+		.format([var_name, expected_type, type_string(typeof(msg[var_name]))]))
+	return msg[var_name]

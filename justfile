@@ -4,7 +4,7 @@ api_dir := "src/api/"
 build_library := "no"
 mode := "debug"
 flag_target := if mode == "debug" {
-  "target=template_debug debug_symbols=yes"
+  "target=template_debug debug_symbols=yes use_hot_reload=yes generate_bindings=yes"
 } else if mode == "release" {
   "target=template_release"
 } else {

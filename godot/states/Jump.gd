@@ -2,9 +2,7 @@ extends State
 
 
 @export
-var jump_cmd: JumpCommand
-@export
-var move_cmd: MoveCommand
+var move_cmd: MoveInputCommand
 @export
 var arc_move_cmd: ArcMoveCommand
 @export
@@ -18,8 +16,9 @@ var upward: bool = false
 
 
 func _setup(actor: EntityPlayer) -> void:
-	actor.env.add_new_method(
-		"hero", "jump", self, arc_move_cmd, "to_jump", [])
+	#actor.env.add_new_method(
+		#"hero", "jump", self, arc_move_cmd, "to_jump", [])
+	pass
 
 
 func _enter(actor: EntityPlayer, previous_state: State) -> void:
@@ -34,28 +33,22 @@ func _enter(actor: EntityPlayer, previous_state: State) -> void:
 		sprite.play("jump")
 
 
-func _update(actor: EntityPlayer, delta: float) -> void:
-	if OS.is_debug_build() and not arc_move_cmd.is_active(actor) and ctx.get_var("is_keyboard", false):
-		transition_to("to_idle")
-	if not arc_move_cmd.is_active(actor):
-		return
-
+func _physics_update(actor: EntityPlayer, delta: float) -> void:
 	arc_move_cmd.execute(actor, delta)
 
 	if not arc_move_cmd.going_up and sprite.animation == "jump":
 		sprite.play("fall")
-	if arc_move_cmd.is_completed(actor):
+	if arc_move_cmd.is_idle(actor):
 		transition_to("to_idle")
 
 	if stats:
 		move_cmd.initialize(actor, {
-			"direction": Input.get_axis("left", "right"),
+			"direction": Vector2(Input.get_axis("left", "right"), 0),
 			"duration": stats.move_duration,
 			"speed": stats.speed,
 		})
 
 
 func _exit(actor: EntityPlayer) -> void:
-	if jump_cmd:
-		jump_cmd.complete(actor)
 	arc_move_cmd.complete(actor)
+	actor.input.env.poll()

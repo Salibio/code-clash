@@ -72,21 +72,21 @@ func _transition_to_next_state(event_name: String) -> void:
 	state.entered.emit()
 
 
-## Updates the current state every frame (non-physics).
-func _process(delta: float) -> void:
-	state._update(actor, delta)
-
-
-## Updates the current state every physics frame.
-func _physics_process(delta: float) -> void:
-	state._physics_update(actor, delta)
-
-
-## Forwards unhandled input events to the current state.
-func _unhandled_input(event: InputEvent) -> void:
-	state._handle_input(actor, event)
-
-
-## Forwards unhandled key input events to the current state.
-func _unhandled_key_input(event: InputEvent) -> void:
-	state._handle_key_input(actor, event)
+### Updates the current state every frame (non-physics).
+#func _process(delta: float) -> void:
+	#state._update(actor, delta)
+#
+#
+### Updates the current state every physics frame.
+#func _physics_process(delta: float) -> void:
+	#state._physics_update(actor, delta)
+#
+#
+### Forwards unhandled input events to the current state.
+#func _unhandled_input(event: InputEvent) -> void:
+	#state._handle_input(actor, event)
+#
+#
+### Forwards unhandled key input events to the current state.
+#func _unhandled_key_input(event: InputEvent) -> void:
+	#state._handle_key_input(actor, event)

@@ -4,7 +4,4 @@
 
 [resource]
 script = ExtResource("1_pwl7h")
-jump_height = 80.0
-jump_time_to_peak = 0.3
-jump_time_to_descent = 0.28
 metadata/_custom_type_script = "uid://dx2ngltys2237"

@@ -23,7 +23,7 @@ func erase_var(var_name: StringName) -> void:
 
 
 func populate_from_dict(dict: Dictionary, overwrite: bool = true) -> void:
-	var is_str_all := dict.values().all(
+	var is_str_all := dict.keys().all(
 		func(e) -> bool:
 			return e is String or e is StringName)
 	if not is_str_all:

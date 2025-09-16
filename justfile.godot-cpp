@@ -1,7 +1,7 @@
 # vi: ft=just
 mode := "debug"
 flag_target := if mode == "debug" {
-  "target=template_debug"
+  "target=template_debug use_hot_reload=yes generate_bindings=no"
 } else if mode == "release" {
   "target=template_release"
 } else {

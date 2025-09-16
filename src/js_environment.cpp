@@ -2,17 +2,13 @@
 #include "duk_config.h"
 #include "duktape.h"
 #include "godot_cpp/classes/object.hpp"
+#include "godot_cpp/classes/ref.hpp"
 #include "godot_cpp/classes/ref_counted.hpp"
-#include "godot_cpp/core/math.hpp"
 #include "godot_cpp/core/object.hpp"
 #include "godot_cpp/core/print_string.hpp"
-#include "godot_cpp/core/property_info.hpp"
 #include "godot_cpp/variant/callable_method_pointer.hpp"
 #include "godot_cpp/variant/char_string.hpp"
 #include "godot_cpp/variant/variant.hpp"
-#include <array>
-#include <cstddef>
-#include <functional>
 
 namespace godot {
 
@@ -33,6 +29,8 @@ void JSEnvironment::_bind_methods() {
   ClassDB::bind_method(D_METHOD("eval", "code"), &JSEnvironment::eval);
   ClassDB::bind_method(D_METHOD("eval_async", "code"),
                        &JSEnvironment::eval_async);
+  ClassDB::bind_method(D_METHOD("poll"),
+                       &JSEnvironment::_method_finished);
 
   ClassDB::bind_method(D_METHOD("is_running"), &JSEnvironment::is_running);
 
@@ -103,7 +101,10 @@ void JSEnvironment::_eval_pending_code(String code) {
   call_deferred("emit_signal", "finished");
 }
 
-void JSEnvironment::_method_finished(String full_path) { semaphore->post(); }
+void JSEnvironment::_method_finished() {
+  print_line("_method_finished: post");
+  semaphore->post();
+}
 
 Dictionary obj_to_dict(duk_context *ctx);
 // Assuming there is [... array]
@@ -207,17 +208,17 @@ duk_ret_t c_function(duk_context *ctx) {
 
   String full_path = GD_FORMAT("{0}.{1}", object_name, method_name);
 
-  Dictionary method_info = self->object_methods[full_path];
-  String dispatch_name = method_info["dispatch_name"];
+  Ref<Resource> method_info = self->object_methods[full_path];
+  String dispatch_name = method_info->get("dispatch_name");
 
-  Node *end_state = Object::cast_to<Node>((Object *)method_info["end_state"]);
-  Node *cmd = Object::cast_to<Node>((Object *)method_info["cmd"]);
-  RefCounted *context =
-      Object::cast_to<RefCounted>((Object *)end_state->get("ctx"));
-  context->call("set_var", "method_name", method_name);
+  // Node *end_state = Object::cast_to<Node>((Object
+  // *)method_info["end_state"]); Node *cmd = Object::cast_to<Node>((Object
+  // *)method_info["cmd"]); RefCounted *context =
+  //     Object::cast_to<RefCounted>((Object *)end_state->get("ctx"));
+  // context->call("set_var", "method_name", method_name);
 
   Dictionary arguments{};
-  Array params = method_info["params"];
+  Array params = method_info->get("params_schema");
   int expected_argc = 0;
   for (Dictionary schema : params) {
     expected_argc += 1;
@@ -314,38 +315,45 @@ duk_ret_t c_function(duk_context *ctx) {
     }
   }
 
-  context->call_deferred("set_var", "args", arguments);
-  // end_state->call_deferred(
-  //     "connect", "exited",
+  Callable cb = method_info->get("callable");
+  if (cb.is_valid()) {
+    cb.call_deferred(method_info, arguments);
+  }
+  // context->call_deferred("set_var", "args", arguments);
+  // // end_state->call_deferred(
+  // //     "connect", "exited",
+  // //     callable_mp(self, &JSEnvironment::_method_finished).bind(full_path),
+  // //     Object::ConnectFlags::CONNECT_ONE_SHOT);
+  // cmd->call_deferred(
+  //     "connect", "idled",
   //     callable_mp(self, &JSEnvironment::_method_finished).bind(full_path),
   //     Object::ConnectFlags::CONNECT_ONE_SHOT);
-  cmd->call_deferred(
-      "connect", "idled",
-      callable_mp(self, &JSEnvironment::_method_finished).bind(full_path),
-      Object::ConnectFlags::CONNECT_ONE_SHOT);
-  end_state->call_deferred("transition_to", dispatch_name);
-  print_line("dispatch_name: ", dispatch_name);
+  // end_state->call_deferred("transition_to", dispatch_name);
+  // print_line("dispatch_name: ", dispatch_name);
 
+  while (self->semaphore->try_wait())
+    ;
   self->semaphore->wait();
   return 0;
 }
 
-void JSEnvironment::add_method(Dictionary method_info) {
-  CharString object_name = ((String)method_info["object_name"]).ascii();
-  CharString method_name = ((String)method_info["method_name"]).ascii();
+void JSEnvironment::add_method(Ref<Resource> method_info) {
+  CharString object_name = ((String)method_info->get("object_name")).ascii();
+  CharString method_name = ((String)method_info->get("method_name")).ascii();
 
   String full_path =
       GD_FORMAT("{0}.{1}", String(object_name), String(method_name));
-
-  duk_push_global_object(ctx);
-
-  duk_push_pointer(ctx, this);
-  duk_put_prop_string(ctx, -2, "__this");
+  print_line("registering: ", full_path);
 
   if (object_methods.has(full_path)) {
     print_error(full_path, " already exist. overriding it.");
   }
   object_methods[full_path] = method_info;
+
+  duk_push_global_object(ctx);
+
+  duk_push_pointer(ctx, this);
+  duk_put_prop_string(ctx, -2, "__this");
 
   if (duk_has_prop_string(ctx, -1, object_name.ptr()) != 1) {
     duk_push_object(ctx);
@@ -356,14 +364,18 @@ void JSEnvironment::add_method(Dictionary method_info) {
 
   duk_get_prop_string(ctx, -1, object_name.ptr());
   {
-    duk_int_t argc = ((Array)method_info["params"]).size();
-    print_line(GD_FORMAT("{0}({1})", String(method_name), argc));
+    duk_int_t argc = ((Array)method_info->get("params_schema")).size();
+    print_line(GD_FORMAT("{0}.{1}({2})", String(object_name), String(method_name), argc));
     duk_push_c_function(ctx, c_function, argc);
     duk_push_string(ctx, method_name.ptr());
     duk_put_prop_string(ctx, -2, "__name");
     duk_put_prop_string(ctx, -2, method_name.ptr());
   }
   duk_pop_2(ctx);
+  duk_push_global_object(ctx);
+  print_line("registered: ", full_path, " = ",
+             duk_has_prop_string(ctx, -1, object_name.ptr()));
+  duk_pop(ctx);
 }
 
 JSEnvironment::JSEnvironment() {

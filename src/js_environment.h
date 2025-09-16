@@ -28,8 +28,8 @@ public:
   void eval_async(String code);
   void _eval_pending_code(String code);
 
-  void add_method(Dictionary info);
-  void _method_finished(String full_path);
+  void add_method(Ref<Resource> method_info);
+  void _method_finished();
 
   bool is_running() const;
 

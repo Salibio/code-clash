@@ -47,7 +47,6 @@
 #include <list>
 #include <mutex>
 #include <set>
-#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -167,6 +166,8 @@ public:
 		instance_binding_callbacks[p_name] = p_callbacks;
 	}
 
+	static void _editor_get_classes_used_callback(GDExtensionTypePtr p_packed_string_array);
+
 	static void _register_engine_singleton(const StringName &p_class_name, Object *p_singleton) {
 		std::lock_guard<std::mutex> lock(engine_singletons_mutex);
 		std::unordered_map<StringName, Object *>::const_iterator i = engine_singletons.find(p_class_name);
@@ -250,7 +251,7 @@ void ClassDB::_register_class(bool p_virtual, bool p_exposed, bool p_runtime) {
 	class_register_order.push_back(cl.name);
 
 	// Register this class with Godot
-	GDExtensionClassCreationInfo4 class_info = {
+	GDExtensionClassCreationInfo5 class_info = {
 		p_virtual, // GDExtensionBool is_virtual;
 		is_abstract, // GDExtensionBool is_abstract;
 		p_exposed, // GDExtensionBool is_exposed;
@@ -276,7 +277,7 @@ void ClassDB::_register_class(bool p_virtual, bool p_exposed, bool p_runtime) {
 		(void *)&T::get_class_static(), // void *class_userdata;
 	};
 
-	internal::gdextension_interface_classdb_register_extension_class4(internal::library, cl.name._native_ptr(), cl.parent_name._native_ptr(), &class_info);
+	internal::gdextension_interface_classdb_register_extension_class5(internal::library, cl.name._native_ptr(), cl.parent_name._native_ptr(), &class_info);
 
 	// call bind_methods etc. to register all members of the class
 	T::initialize_class();

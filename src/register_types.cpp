@@ -26,7 +26,7 @@ extern "C" {
 // Initialization.
 GDExtensionBool GDE_EXPORT
 godotcpp_library_init(GDExtensionInterfaceGetProcAddress p_get_proc_address,
-                      const GDExtensionClassLibraryPtr p_library,
+                      GDExtensionClassLibraryPtr p_library,
                       GDExtensionInitialization *r_initialization) {
   godot::GDExtensionBinding::InitObject init_obj(p_get_proc_address, p_library,
                                                  r_initialization);

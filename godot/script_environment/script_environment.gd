@@ -16,7 +16,7 @@ func add_new_method(object_name: String, method_name: String, end_state: State, 
 		"cmd": cmd,
 		"params": param_schema,
 	}
-	add_method(_method_db[signature])
+	#add_method(_method_db[signature])
 
 
 func parse_methods(db: Dictionary) -> String:

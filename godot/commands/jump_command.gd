@@ -1,7 +1,6 @@
 class_name JumpCommand
 extends Command
 
-
 var jump_gravity: float
 
 
@@ -17,10 +16,7 @@ func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 
 
 func execute(actor: CharacterBody2D, delta: float) -> void:
-	if not is_active(actor):
-		return
-
 	if actor.velocity.y < 0.0:
 		actor.velocity.y += jump_gravity * delta
 	else:
-		_to_idle()
+		_to_complete()
