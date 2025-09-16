@@ -45,11 +45,14 @@ exist() {
 download() {
   local out=$1
   local url=$2
-  echo "$(ansi green)Downloading $out from $url$(ansi reset)"
+
+  printf "%sDownloading:%s %s\n" "$(ansi green)" "$(ansi reset)" "$out"
+  printf "  from: %s\n" "$url"
+
   mkdir -p "$cache_dir"
-  echo curl -L -C - -f -o "$out" "$url"
-  if [[ ! $(curl -L -C - -f -o "$out" "$url") ]]; then
-    echo "$(ansi red)error: failed to download $zipfile$(ansi reset)"
+
+  if ! curl -L -C - -f -o "$out" "$url"; then
+    printf "%serror:%s failed to download %s\n" "$(ansi red)" "$(ansi reset)" "$out"
     exit 1
   fi
 }
