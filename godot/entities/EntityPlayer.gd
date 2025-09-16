@@ -8,19 +8,6 @@ var input: SimulateInput
 @export
 var sprite: AnimatedSprite2D
 
-
-func _ready() -> void:
-	#env.finished.connect(func() -> void:
-		#($StateMachine as StateMachine)._transition_to_next_state("to_idle")
-	#)
-	Input.mouse_mode = Input.MOUSE_MODE_CONFINED
-	pass
-
-
-func _physics_process(delta: float) -> void:
-	move_and_slide()
-
-
 @export
 var fall_cmd: FallCommand
 @export
@@ -31,6 +18,14 @@ var jump_cmd: JumpCommand
 var stats: EntityStats
 @export
 var gsc: StateChart
+
+
+func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CONFINED
+
+
+func _physics_process(delta: float) -> void:
+	move_and_slide()
 
 
 func _on_idle_state_entered() -> void:
@@ -52,6 +47,9 @@ func _on_walk_state_physics_processing(delta: float) -> void:
 	if move_cmd.is_completed(self):
 		gsc.send_event("to_idle")
 
+func _on_walk_state_exited() -> void:
+	input.env.poll()
+
 
 func _on_grounded_state_physics_processing(delta: float) -> void:
 	if Input.is_action_pressed("jump"):
@@ -62,6 +60,7 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 
 
 func _on_jump_state_entered() -> void:
+	sprite.play(&"jump")
 	print("_on_jump_state_entered enter")
 	jump_cmd.initialize(self, {
 		"height": stats.jump_height,
@@ -77,6 +76,7 @@ func _on_jump_state_physics_processing(delta: float) -> void:
 
 
 func _on_falling_state_entered() -> void:
+	sprite.play(&"fall")
 	fall_cmd.initialize(self, {
 		"height": stats.jump_height,
 		"time_to_descent": stats.jump_time_to_descent,
@@ -87,3 +87,6 @@ func _on_falling_state_physics_processing(delta: float) -> void:
 
 	if fall_cmd.is_completed(self):
 		gsc.send_event("to_grounded")
+
+func _on_falling_state_exited() -> void:
+	input.env.poll()

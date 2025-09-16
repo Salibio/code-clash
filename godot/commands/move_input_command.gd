@@ -1,7 +1,6 @@
 class_name MoveInputCommand
 extends Command
 
-
 @export
 var sprite: AnimatedSprite2D
 @export

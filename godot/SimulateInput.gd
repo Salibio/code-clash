@@ -18,10 +18,10 @@ func _ready() -> void:
 	action.action_name = "jump"
 	action.duration = 0.0
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		fsm.ctx.populate_from_dict({
-			"args": args,
-			"method_name": info.method_name,
-		})
+		#fsm.ctx.populate_from_dict({
+			#"args": args,
+			#"method_name": info.method_name,
+		#})
 		action_pressed(info.action_name, info.duration)
 	env.add_method(action)
 
@@ -30,12 +30,12 @@ func _ready() -> void:
 	action.object_name = "hero"
 	action.method_name = "walk_left"
 	action.action_name = "left"
-	action.duration = 1
+	action.duration = 0.5
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		fsm.ctx.populate_from_dict({
-			"args": args,
-			"method_name": info.method_name,
-		})
+		#fsm.ctx.populate_from_dict({
+			#"args": args,
+			#"method_name": info.method_name,
+		#})
 		action_pressed(info.action_name, info.duration)
 	env.add_method(action)
 
@@ -44,12 +44,12 @@ func _ready() -> void:
 	action.object_name = "hero"
 	action.method_name = "walk_right"
 	action.action_name = "right"
-	action.duration = 1
+	action.duration = 0.5
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		fsm.ctx.populate_from_dict({
-			"args": args,
-			"method_name": info.method_name,
-		})
+		#fsm.ctx.populate_from_dict({
+			#"args": args,
+			#"method_name": info.method_name,
+		#})
 		action_pressed(info.action_name, info.duration)
 	env.add_method(action)
 

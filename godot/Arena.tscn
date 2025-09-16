@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bmkjgidroq0ek"]
+[gd_scene load_steps=20 format=3 uid="uid://bmkjgidroq0ek"]
 
 [ext_resource type="Theme" uid="uid://c30mdi5ed2iah" path="res://assets/fonts/monospace.tres" id="1_m8h0s"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="1_osepa"]
@@ -11,11 +11,6 @@
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="8_7bxlx"]
 [ext_resource type="Script" uid="uid://cc0gmnbmja00h" path="res://godot/commands/move_input_command.gd" id="8_sghct"]
 [ext_resource type="Script" uid="uid://cvscfobqor8e6" path="res://godot/commands/fall_command.gd" id="10_ojwt1"]
-[ext_resource type="Script" uid="uid://ddaxc5vx0e5ik" path="res://godot/finite_state_machine/StateMachine.gd" id="11_25y8y"]
-[ext_resource type="Script" uid="uid://d2lraa1bilkhg" path="res://godot/states/Idle.gd" id="12_uwghf"]
-[ext_resource type="Script" uid="uid://c7lax83f3fjct" path="res://godot/states/Fall.gd" id="13_rlytp"]
-[ext_resource type="Script" uid="uid://37obnauashog" path="res://godot/states/Walk.gd" id="14_m8h0s"]
-[ext_resource type="Script" uid="uid://btcowqf1a21t3" path="res://godot/states/Jump.gd" id="15_sghct"]
 [ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="16_15rco"]
 [ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="17_5qqfe"]
 [ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="17_vra06"]
@@ -117,7 +112,7 @@ metadata/_edit_group_ = true
 
 [node name="SimulateInput" type="Node" parent="Entities/Player" node_paths=PackedStringArray("fsm", "code_edit")]
 script = ExtResource("4_sghct")
-fsm = NodePath("../StateMachine")
+fsm = NodePath("")
 code_edit = NodePath("../../../UI/Editor/CodeEdit")
 
 [node name="RedHood" parent="Entities/Player" instance=ExtResource("3_rlytp")]
@@ -147,43 +142,6 @@ metadata/_custom_type_script = "uid://cc0gmnbmja00h"
 [node name="ArcMove" type="Node" parent="Entities/Player/Commands"]
 script = ExtResource("6_uwghf")
 metadata/_custom_type_script = "uid://di16n7fv27a8"
-
-[node name="StateMachine" type="Node" parent="Entities/Player"]
-script = ExtResource("11_25y8y")
-metadata/_custom_type_script = "uid://ddaxc5vx0e5ik"
-
-[node name="Idle" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("sprite")]
-script = ExtResource("12_uwghf")
-stats = ExtResource("8_7bxlx")
-sprite = NodePath("../../RedHood")
-event_name = &"to_idle"
-metadata/_custom_type_script = "uid://dwlfuxn0shdts"
-
-[node name="Fall" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("fall_cmd", "move_cmd")]
-script = ExtResource("13_rlytp")
-fall_cmd = NodePath("../../Commands/Fall")
-move_cmd = NodePath("../../Commands/Move")
-stats = ExtResource("8_7bxlx")
-event_name = &"to_fall"
-metadata/_custom_type_script = "uid://dwlfuxn0shdts"
-
-[node name="Walk" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("move_cmd", "sprite")]
-script = ExtResource("14_m8h0s")
-move_cmd = NodePath("../../Commands/Move")
-stats = ExtResource("8_7bxlx")
-sprite = NodePath("../../RedHood")
-event_name = &"to_walk"
-metadata/_custom_type_script = "uid://dwlfuxn0shdts"
-
-[node name="Jump" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("move_cmd", "arc_move_cmd", "fall_state", "sprite")]
-script = ExtResource("15_sghct")
-move_cmd = NodePath("../../Commands/Move")
-arc_move_cmd = NodePath("../../Commands/ArcMove")
-stats = ExtResource("8_7bxlx")
-fall_state = NodePath("../Fall")
-sprite = NodePath("../../RedHood")
-event_name = &"to_jump"
-metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
 [node name="StateChart" type="Node" parent="Entities/Player"]
 script = ExtResource("16_15rco")
@@ -255,9 +213,11 @@ delay_in_seconds = "0.0"
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Idle" to="Entities/Player" method="_on_idle_state_entered"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/Locomotion/Idle" to="Entities/Player" method="_on_idle_state_physics_processing"]
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Walk" to="Entities/Player" method="_on_walk_state_entered"]
+[connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/Locomotion/Walk" to="Entities/Player" method="_on_walk_state_exited"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/Locomotion/Walk" to="Entities/Player" method="_on_walk_state_physics_processing"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/AirBorne/Grounded" to="Entities/Player" method="_on_grounded_state_physics_processing"]
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/AirBorne/Falling" to="Entities/Player" method="_on_falling_state_entered"]
+[connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/AirBorne/Falling" to="Entities/Player" method="_on_falling_state_exited"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/AirBorne/Falling" to="Entities/Player" method="_on_falling_state_physics_processing"]
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/AirBorne/Jump" to="Entities/Player" method="_on_jump_state_entered"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/AirBorne/Jump" to="Entities/Player" method="_on_jump_state_physics_processing"]
