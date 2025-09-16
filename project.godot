@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 Supabase="*res://addons/supabase/Supabase/supabase.gd"
 Console="*res://addons/console/console.gd"
+BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
+BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 
 [debug]
 
@@ -47,7 +49,7 @@ text_editor/behavior/indent/type=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/console/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/supabase/plugin.cfg")
+enabled=PackedStringArray("res://addons/beehave/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/supabase/plugin.cfg")
 
 [input]
 

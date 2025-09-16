@@ -17,15 +17,7 @@ download() {
 }
 
 init_addons() {
-  local url="https://github.com/limbonaut/limboai/releases/download/v1.4.1/limboai+v1.4.1.gdextension-4.4.zip"
-  local addon="$(basename $url)"
-  local zipfile="$cache_dir/$addon"
-  if [[ ! -d "$PWD/addons/limboai" ]]; then
-    if [[ ! -f "$zipfile" ]]; then
-      download "$zipfile" "$url"
-    fi
-    unzip -n "$zipfile" 'addons/**/*'
-  fi
+  return
 }
 
 init_justfile() {
