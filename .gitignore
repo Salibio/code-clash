@@ -86,4 +86,3 @@ compile_commands.json
 *.os
 !addons/**
 build*
-addons/limboai

@@ -69,11 +69,6 @@ jump={
 ]
 }
 
-[limbo_ai]
-
-behavior_tree/behavior_tree_default_dir="res://godot/ai/trees/"
-behavior_tree/user_task_dirs=PackedStringArray("res://godot/ai/tasks/", "res://godot/ai/tasks/")
-
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
