@@ -4,6 +4,7 @@ if [[ "$OS" = "Windows_NT" ]]; then
   if [[ -x "./.cache/python.sh" ]]; then
     python="./.cache/python.sh"
   elif [[ -x "../.cache/python.sh" ]]; then
+    python="../.cache/python.sh"
   fi
   exec $python -m SCons $@
 else
