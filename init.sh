@@ -103,16 +103,16 @@ init_scons() {
   local python_bin=""
   if exist python; then
     python_bin="python"
-    make_py_script $python_bin
+    make_py_script "$python_bin"
   elif exist python3; then
     python_bin="python3"
-    make_py_script $python_bin
+    make_py_script "$python_bin"
   elif exist python313; then
     python_bin="python313"
-    make_py_script $python_bin
+    make_py_script "$python_bin"
   elif exist '/c/Program Files/Python313/python'; then
     python_bin="/c/Program Files/Python313/python"
-    make_py_script $python_bin
+    make_py_script "$python_bin"
   fi
 
   if [[ -z $python_bin ]]; then
