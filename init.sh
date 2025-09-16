@@ -4,14 +4,52 @@ set -e
 
 cache_dir="$PWD/.cache"
 
+ask() {
+  local prompt="$1"
+  local answer
+
+  echo "$prompt"
+  echo "Please enter 'y' for yes or 'n' for no."
+  read -p "> " answer
+
+  if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+to_ansi() {
+  printf '\001\e[%sm\002' $1
+}
+
+ansi() {
+  case "$1" in
+    (reset)   to_ansi 0;;
+    (black)   to_ansi 30;;
+    (red)     to_ansi 31;;
+    (green)   to_ansi 32;;
+    (yellow)  to_ansi 33;;
+    (blue)    to_ansi 34;;
+    (magenta) to_ansi 35;;
+    (cyan)    to_ansi 36;;
+    (white)   to_ansi 37;;
+    (orange)  to_ansi 38\;5\;166;;
+  esac
+}
+
+exist() {
+  command -v "$1" >/dev/null 2>&1
+}
+
 download() {
   local out=$1
   local url=$2
-  echo "downloading $out from $url"
+  echo "$(ansi green)Downloading $out from $url$(ansi reset)"
   mkdir -p "$cache_dir"
   echo curl -L -C - -f -o "$out" "$url"
   if [[ ! $(curl -L -C - -f -o "$out" "$url") ]]; then
-    echo "error: failed to download $zipfile"
+    echo "$(ansi red)error: failed to download $zipfile$(ansi reset)"
     exit 1
   fi
 }
@@ -49,18 +87,18 @@ init_scons() {
     download "$file" "$url"
   fi
 
-  local python_bin="python"
-  if python --version; then
+  local python_bin=""
+  if exist python; then
     python_bin="python"
-  elif python3 --version; then
+  elif exist python3; then
     python_bin="python3"
-  elif python313 --version; then
+  elif exist python313; then
     python_bin="python313"
-  elif '/c/Program Files/Python313/python' --version; then
+  elif exist '/c/Program Files/Python313/python'; then
     python_bin="/c/Program Files/Python313/python"
   fi
 
-  if ! type "$python_bin"; then
+  if [[ -z $python_bin ]]; then
     cmd //c "$(cygpath -w $file) /passive /norestart InstallAllUsers=1 Include_pip=1 PrependPath=1"
   fi
 
@@ -86,6 +124,10 @@ init_compiler() {
   ./just.sh build-windows-x86_64
 }
 
+open() {
+  eval "$1" &>/dev/null & disown;
+}
+
 init_addons
 init_submodules
 if [[ "$OS" = "Windows_NT" ]]; then
@@ -96,5 +138,7 @@ if [[ "$OS" = "Windows_NT" ]]; then
 fi
 
 echo
-echo -e "\033[32mInitialized Successfully!\033[0m"
-echo -e "Enter './godot.sh' (without quotes) to open godot engine!"
+echo -e "$(ansi green)Initialized Successfully!$(ansi reset)"
+if ask "Do you want to open godot?"; then
+  open ./godot.sh
+fi
