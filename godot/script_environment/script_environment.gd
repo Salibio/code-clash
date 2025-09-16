@@ -2,7 +2,7 @@ class_name ScriptEnvironment
 extends JSEnvironment
 
 
-var _method_db: Dictionary = {}
+var _method_db: Dictionary[String, Dictionary] = {}
 
 
 func add_new_method(object_name: String, method_name: String, end_state: State, cmd: Command, dispatch_name: String, param_schema: Array) -> void:
@@ -20,9 +20,9 @@ func add_new_method(object_name: String, method_name: String, end_state: State, 
 
 
 func parse_methods(db: Dictionary) -> String:
-	var schemas: Dictionary = {}
-	for signature in db:
-		var info = db[signature]
+	var schemas: Dictionary[String, Array] = {}
+	for signature: String in db:
+		var info: Dictionary = db[signature]
 		var methods: Array = schemas.get_or_add(info["object_name"], [])
 		methods.append(info)
 
@@ -32,7 +32,7 @@ func parse_methods(db: Dictionary) -> String:
 	return code.strip_edges(false)
 
 
-func _method_to_class(c_name: String, methods: Array) -> String:
+func _method_to_class(c_name: String, methods: Array[Dictionary]) -> String:
 	var code: String = ""
 	for e in methods:
 		var docs: String = _method_to_documentation(e)

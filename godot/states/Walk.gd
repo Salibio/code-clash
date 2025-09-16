@@ -25,7 +25,7 @@ func _setup(actor: EntityPlayer) -> void:
 func _enter(actor: EntityPlayer, previous_state: State) -> void:
 	if move_cmd and stats:
 		var args: Dictionary = ctx.get_var("args")
-		var method_name = ctx.get_var("method_name")
+		var method_name: String = ctx.get_var("method_name")
 
 		sprite.play(&"run")
 		if method_name == "walk_right":

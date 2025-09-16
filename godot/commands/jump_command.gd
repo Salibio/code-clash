@@ -5,7 +5,7 @@ extends Command
 var jump_gravity: float
 
 
-func initialize(actor: CharacterBody2D, msg: Dictionary = {}):
+func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 	assert(msg.has("height") and msg["height"] is float)
 	assert(msg.has("time_to_peak") and msg["time_to_peak"] is float)
 	var height: float = msg["height"]
@@ -16,7 +16,7 @@ func initialize(actor: CharacterBody2D, msg: Dictionary = {}):
 	_to_active()
 
 
-func execute(actor: CharacterBody2D, delta: float):
+func execute(actor: CharacterBody2D, delta: float) -> void:
 	if not is_active(actor):
 		return
 

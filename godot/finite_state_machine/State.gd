@@ -25,8 +25,8 @@ signal exited
 
 
 ## Requests a transition to another state by emitting the `finished` signal.
-func transition_to(event_name: StringName):
-	fsm._transition_to_next_state(event_name)
+func transition_to(evt_name: StringName) -> void:
+	fsm._transition_to_next_state(evt_name)
 
 
 ## Called once when the StateMachine is initialized.

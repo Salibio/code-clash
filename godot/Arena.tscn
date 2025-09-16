@@ -1,5 +1,6 @@
-[gd_scene load_steps=17 format=3 uid="uid://bmkjgidroq0ek"]
+[gd_scene load_steps=18 format=3 uid="uid://bmkjgidroq0ek"]
 
+[ext_resource type="Theme" uid="uid://c30mdi5ed2iah" path="res://assets/fonts/monospace.tres" id="1_m8h0s"]
 [ext_resource type="Script" uid="uid://cl8am1dq57b4" path="res://godot/entities/Entities.gd" id="2_krip0"]
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="3_i14ea"]
 [ext_resource type="PackedScene" uid="uid://qcrjjeqgf122" path="res://godot/scenes/RedHood.tscn" id="3_rlytp"]
@@ -30,7 +31,7 @@ func _ready() -> void:
 
 
 func _on_viewport_size_changed() -> void:
-	var screen_size = get_viewport_rect().size
+	var screen_size := get_viewport_rect().size
 
 	position.y = ground.position.y - screen_size.y * 0.4
 "
@@ -72,8 +73,9 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="CodeEdit" type="TextEdit" parent="UI/Editor"]
-custom_minimum_size = Vector2(600, 400)
+custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
+theme = ExtResource("1_m8h0s")
 text = "hero.jump()
 hero.walk_left(5)
 hero.walk_right(5)"

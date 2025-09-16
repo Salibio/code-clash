@@ -1,3 +1,4 @@
+@abstract
 class_name Command
 extends Node
 
@@ -13,12 +14,13 @@ signal completed
 
 var _status: Status = Status.Complete
 
-func initialize(actor, msg: Dictionary = {}) -> void:
-	pass
+
+@abstract
+func initialize(actor, msg: Dictionary = {}) -> void
 
 
-func execute(actor, delta: float):
-	pass
+@abstract
+func execute(actor, delta: float) -> void
 
 
 func complete(actor) -> void:
@@ -40,9 +42,13 @@ func is_completed(actor) -> bool:
 func _to_active() -> void:
 	_status = Status.Active
 	actived.emit()
+
+
 func _to_idle() -> void:
 	_status = Status.Idle
 	idled.emit()
+
+
 func _to_complete() -> void:
 	_status = Status.Complete
 	completed.emit()

@@ -7,8 +7,8 @@ var env: ScriptEnvironment = ScriptEnvironment.new()
 
 
 func _ready() -> void:
-	env.finished.connect(func():
-		$StateMachine._transition_to_next_state("to_idle")
+	env.finished.connect(func() -> void:
+		($StateMachine as StateMachine)._transition_to_next_state("to_idle")
 	)
 
 

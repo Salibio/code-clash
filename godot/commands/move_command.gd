@@ -14,7 +14,7 @@ func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 	assert(msg.has("duration") and msg["duration"] is float)
 	assert(msg.has("speed") and msg["speed"] is float)
 
-	if is_zero_approx(msg["direction"]):
+	if is_zero_approx(msg["direction"] as float):
 		return
 
 	direction = sign(msg["direction"])
@@ -26,7 +26,7 @@ func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 	_to_active()
 
 
-func execute(actor: CharacterBody2D, delta: float):
+func execute(actor: CharacterBody2D, delta: float) -> void:
 	if not is_active(actor):
 		return
 

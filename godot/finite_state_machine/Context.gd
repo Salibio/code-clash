@@ -23,7 +23,9 @@ func erase_var(var_name: StringName) -> void:
 
 
 func populate_from_dict(dict: Dictionary, overwrite: bool = true) -> void:
-	var is_str_all = dict.values().all(func(e): e is String or e is StringName)
+	var is_str_all := dict.values().all(
+		func(e) -> bool:
+			return e is String or e is StringName)
 	if not is_str_all:
 		push_error("Context: Invalid key type in dictionary to populate context. Must be StringName or String.")
 		return

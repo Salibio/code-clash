@@ -12,7 +12,7 @@ var initial_velocity: float
 var going_up: bool = true
 
 
-func initialize(actor, msg: Dictionary = {}):
+func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 	assert(msg.has("distance") and msg["distance"] is float)
 	assert(msg.has("time_to_accelerate") and msg["time_to_accelerate"] is float)
 	assert(msg.has("time_to_decelerate") and msg["time_to_decelerate"] is float)
@@ -21,7 +21,7 @@ func initialize(actor, msg: Dictionary = {}):
 	distance = msg["distance"]
 	time_to_accelerate = msg["time_to_accelerate"]
 	time_to_decelerate = msg["time_to_decelerate"]
-	direction = msg["direction"].normalized()
+	direction = (msg["direction"] as Vector2).normalized()
 
 	# Kinematics
 	acceleration_up = (2.0 * distance) / (time_to_accelerate * time_to_accelerate)
@@ -34,7 +34,7 @@ func initialize(actor, msg: Dictionary = {}):
 	_to_active()
 
 
-func execute(actor: CharacterBody2D, delta: float):
+func execute(actor: CharacterBody2D, delta: float) -> void:
 	if not is_active(actor):
 		return
 
