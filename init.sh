@@ -38,7 +38,7 @@ init_justfile() {
 }
 
 init_godot() {
-  local url="https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_win64.exe.zip"
+  local url="https://github.com/godotengine/godot/releases/download/4.5-stable/Godot_v4.5-stable_win64.exe.zip"
   local zipfile="$cache_dir/$(basename $url)"
   if [[ ! -f "$zipfile" ]]; then
     download "$zipfile" "$url"

@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="Code Clash - The Adventure Game"
-run/main_scene="uid://bhnu738xunaln"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+run/main_scene="uid://bmkjgidroq0ek"
+config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
