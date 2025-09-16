@@ -1,8 +1,8 @@
 #!/bin/bash
 if [[ "$OS" = "Windows_NT" ]]; then
-  exec "./.cache/Godot_v4.5-stable_win64.exe" -e --path "$PWD" $@
+  "./.cache/Godot_v4.5-stable_win64.exe" -e --path "$PWD" $@ > /dev/null 2>&1 & disown
 else
-  exec godot -e --path $PWD $@
+  godot -e --path $PWD $@ > /dev/null 2>&1 & disown
 fi
 
 # vi: ft=bash
