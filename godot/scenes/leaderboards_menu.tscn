@@ -1,10 +1,10 @@
 [gd_scene load_steps=13 format=3 uid="uid://cic6kgxw16wuk"]
 
-[ext_resource type="Script" uid="uid://dd7ducja2fli4" path="res://godot/scenes/leaderboards_menu.gd" id="1_5entk"]
+[ext_resource type="Script" uid="uid://dd7ducja2fli4" path="res://godot/scripts/leaderboards_menu.gd" id="1_5entk"]
 [ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="2_6cm6y"]
-[ext_resource type="Texture2D" uid="uid://db4aar84s0702" path="res://assets/BG_ICONS/PNG/BtnExitNoOpacity.png" id="2_ivb16"]
-[ext_resource type="Texture2D" uid="uid://83hyp7e0n8p8" path="res://assets/BG_ICONS/PNG/BtnExitOpacity.png" id="3_cv2r0"]
+[ext_resource type="Texture2D" uid="uid://b7gn72x4lg4o8" path="res://assets/back button arrow/left-arrow-in-circular-button-black-symbol.png" id="4_5entk"]
 [ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/ExitButton.gd" id="4_ivb16"]
+[ext_resource type="Texture2D" uid="uid://d4mcg72x14726" path="res://assets/back button arrow/pressed_arrow-removebg-preview.png" id="5_6cm6y"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="5_cv2r0"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="6_addcg"]
 
@@ -39,6 +39,7 @@ grow_vertical = 2
 script = ExtResource("1_5entk")
 
 [node name="bg" type="Panel" parent="."]
+modulate = Color(0.670588, 0.670588, 0.670588, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -46,21 +47,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_addcg")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="bg"]
-layout_mode = 0
-offset_left = 433.0
-offset_top = 70.0
-offset_right = 698.0
-offset_bottom = 143.0
-
-[node name="title" type="Label" parent="bg/HBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("6_addcg")
-theme_override_font_sizes/font_size = 40
-text = "LeaderBoards"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="bg"]
 layout_mode = 0
@@ -76,8 +62,8 @@ offset_left = 48.0
 offset_top = 54.0
 offset_right = 116.0
 offset_bottom = 119.0
-texture_normal = ExtResource("2_ivb16")
-texture_pressed = ExtResource("3_cv2r0")
+texture_normal = ExtResource("4_5entk")
+texture_pressed = ExtResource("5_6cm6y")
 ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("4_ivb16")
@@ -87,29 +73,49 @@ stream = ExtResource("5_cv2r0")
 volume_db = -15.0
 bus = &"SFX"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="bg/TouchScreenButton"]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 433.0
+offset_top = 70.0
+offset_right = 698.0
+offset_bottom = 143.0
+
+[node name="title" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("6_addcg")
+theme_override_font_sizes/font_size = 40
+text = "LeaderBoards"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
 offset_left = 204.0
 offset_top = 157.0
 offset_right = 907.0
 offset_bottom = 222.0
 theme_override_constants/separation = 300
 
-[node name="Level_Rank" type="Button" parent="bg/TouchScreenButton/HBoxContainer2"]
+[node name="Level_Rank" type="Button" parent="HBoxContainer2"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("6_addcg")
 theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxEmpty_6cm6y")
 theme_override_styles/hover = SubResource("StyleBoxFlat_6cm6y")
 text = "Level Rank"
 
-[node name="NinePatchRect" type="NinePatchRect" parent="bg/TouchScreenButton/HBoxContainer2/Level_Rank"]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer2/Level_Rank"]
 layout_mode = 0
 offset_left = -12.0
 offset_top = 3.0
 offset_right = 738.0
 offset_bottom = 403.0
 
-[node name="level_Panel" type="Panel" parent="bg/TouchScreenButton/HBoxContainer2/Level_Rank/NinePatchRect"]
+[node name="level_Panel" type="Panel" parent="HBoxContainer2/Level_Rank/NinePatchRect"]
 visible = false
 layout_mode = 0
 offset_left = 7.0
@@ -117,7 +123,7 @@ offset_top = 87.0
 offset_right = 765.0
 offset_bottom = 391.0
 
-[node name="level label" type="HBoxContainer" parent="bg/TouchScreenButton/HBoxContainer2/Level_Rank/NinePatchRect/level_Panel"]
+[node name="level label" type="HBoxContainer" parent="HBoxContainer2/Level_Rank/NinePatchRect/level_Panel"]
 layout_mode = 0
 offset_left = 31.0
 offset_top = -9.0
@@ -125,20 +131,20 @@ offset_right = 726.0
 offset_bottom = 63.0
 theme_override_constants/separation = 260
 
-[node name="name" type="Label" parent="bg/TouchScreenButton/HBoxContainer2/Level_Rank/NinePatchRect/level_Panel/level label"]
+[node name="name" type="Label" parent="HBoxContainer2/Level_Rank/NinePatchRect/level_Panel/level label"]
 layout_mode = 2
 text = "Players"
 
-[node name="speed" type="Label" parent="bg/TouchScreenButton/HBoxContainer2/Level_Rank/NinePatchRect/level_Panel/level label"]
+[node name="speed" type="Label" parent="HBoxContainer2/Level_Rank/NinePatchRect/level_Panel/level label"]
 layout_mode = 2
 text = "Speed"
 vertical_alignment = 1
 
-[node name="accuracy" type="Label" parent="bg/TouchScreenButton/HBoxContainer2/Level_Rank/NinePatchRect/level_Panel/level label"]
+[node name="accuracy" type="Label" parent="HBoxContainer2/Level_Rank/NinePatchRect/level_Panel/level label"]
 layout_mode = 2
 text = "Accuracy"
 
-[node name="Global Rank" type="Button" parent="bg/TouchScreenButton/HBoxContainer2"]
+[node name="Global Rank" type="Button" parent="HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_addcg")
 theme_override_font_sizes/font_size = 40
@@ -146,14 +152,14 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_asgwy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_asgwy")
 text = "Global Rank"
 
-[node name="NinePatchRect" type="NinePatchRect" parent="bg/TouchScreenButton/HBoxContainer2/Global Rank"]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer2/Global Rank"]
 layout_mode = 0
 offset_left = -487.0
 offset_top = 85.0
 offset_right = 279.0
 offset_bottom = 398.0
 
-[node name="Global_Panel" type="Panel" parent="bg/TouchScreenButton/HBoxContainer2/Global Rank/NinePatchRect"]
+[node name="Global_Panel" type="Panel" parent="HBoxContainer2/Global Rank/NinePatchRect"]
 visible = false
 layout_mode = 0
 offset_left = -19.0
@@ -161,7 +167,7 @@ offset_top = 9.0
 offset_right = 742.0
 offset_bottom = 304.0
 
-[node name="Global label" type="HBoxContainer" parent="bg/TouchScreenButton/HBoxContainer2/Global Rank/NinePatchRect/Global_Panel"]
+[node name="Global label" type="HBoxContainer" parent="HBoxContainer2/Global Rank/NinePatchRect/Global_Panel"]
 layout_mode = 0
 offset_left = 51.0
 offset_top = -8.0
@@ -169,15 +175,15 @@ offset_right = 808.0
 offset_bottom = 64.0
 theme_override_constants/separation = 450
 
-[node name="player" type="Label" parent="bg/TouchScreenButton/HBoxContainer2/Global Rank/NinePatchRect/Global_Panel/Global label"]
+[node name="player" type="Label" parent="HBoxContainer2/Global Rank/NinePatchRect/Global_Panel/Global label"]
 layout_mode = 2
 text = "Player Ranks"
 
-[node name="profiency" type="Label" parent="bg/TouchScreenButton/HBoxContainer2/Global Rank/NinePatchRect/Global_Panel/Global label"]
+[node name="profiency" type="Label" parent="HBoxContainer2/Global Rank/NinePatchRect/Global_Panel/Global label"]
 layout_mode = 2
 text = "Proficency"
 
 [connection signal="mouse_entered" from="bg/TouchScreenButton/Exit_Button" to="bg/TouchScreenButton/Exit_Button" method="_on_mouse_entered"]
 [connection signal="pressed" from="bg/TouchScreenButton/Exit_Button" to="bg/TouchScreenButton/Exit_Button" method="_on_pressed"]
-[connection signal="pressed" from="bg/TouchScreenButton/HBoxContainer2/Level_Rank" to="." method="_on_level_rank_pressed"]
-[connection signal="pressed" from="bg/TouchScreenButton/HBoxContainer2/Global Rank" to="." method="_on_global_rank_pressed"]
+[connection signal="pressed" from="HBoxContainer2/Level_Rank" to="." method="_on_level_rank_pressed"]
+[connection signal="pressed" from="HBoxContainer2/Global Rank" to="." method="_on_global_rank_pressed"]

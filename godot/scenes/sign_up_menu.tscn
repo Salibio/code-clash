@@ -181,7 +181,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_akivp")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_sraid")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_vtent")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_p376f")
-text = "Back to MainMenu"
+text = "Back to Main Menu"
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_wry4w")

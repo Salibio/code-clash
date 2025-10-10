@@ -1,9 +1,9 @@
 extends Control
 
-@onready var level_rank: Button = $bg/TouchScreenButton/HBoxContainer2/Level_Rank
-@onready var global_rank: Button = $"bg/TouchScreenButton/HBoxContainer2/Global Rank"
-@onready var level_panel: Panel = $bg/TouchScreenButton/HBoxContainer2/Level_Rank/NinePatchRect/level_Panel
-@onready var global_panel: Panel = $"bg/TouchScreenButton/HBoxContainer2/Global Rank/NinePatchRect/Global_Panel"
+@onready var level_rank: Button = $HBoxContainer2/Level_Rank
+@onready var global_rank: Button = $"HBoxContainer2/Global Rank"
+@onready var level_panel: Panel = $HBoxContainer2/Level_Rank/NinePatchRect/level_Panel
+@onready var global_panel: Panel = $"HBoxContainer2/Global Rank/NinePatchRect/Global_Panel"
 
 func _ready():
 	level_rank.visible =true
