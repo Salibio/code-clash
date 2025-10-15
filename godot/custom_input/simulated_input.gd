@@ -6,15 +6,13 @@ var EPSILON: float = 0.1
 
 var _env: JSEnvironment = JSEnvironment.new()
 
-var _actions: Dictionary[String, bool] = {}
+var _actions: Dictionary[String, MethodInput] = {}
+var _one_shot_actions_count := 0
+signal one_shot_action_finished
 var _timers: Array[Timer] = []
 
 # required variables.
 var _sync: Syncronizer
-
-var _is_action_active := false
-signal action_activated
-signal action_deactivated
 
 var state_can_resume := true
 
@@ -27,165 +25,146 @@ func _init(sync: Syncronizer) -> void:
 	_sync = sync
 	env.finished.connect(func() -> void:
 		clear())
-	var entry := MethodInput.new()
+	var entry := new_action()
 
-	entry = MethodInput.new()
-	entry.type = entry.Type.WAIT
-	entry.params_schema = [{
-		"name": "duration",
-		"type": "float",
-		# "default": 1.0,
-	}]
-	entry.path = "hero.dev.wait"
-	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> bool:
-		if not args.has("duration"):
-			push_error("missing argument 'duration' for method {0}".format(info.path))
-			return false
-		state_can_resume = false
-		print_rich("[color=green]wait[/color]")
-		var duration: float = maxf(args.get("duration", 0.0) as float, EPSILON)
-		get_tree().create_timer(duration).timeout.connect(func() -> void:
-			_sync.resume()
-			state_can_resume = true
-		)
+	# ==================
+	# Persistent Actions
+	# ==================
+	entry = new_action()
+	entry.action_name = ActionNames.idle
+	entry.path = "hero.dev.idle"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
+		print_rich("[color=green]idle[/color]")
+		clear()
+		_action_pressed(ActionNames.idle, info)
+		info.entered.connect(func() -> void:
+			clear()
+			_env.resume()
+			print("entered"))
 		return true
 	_env.add_method_v2(entry)
 
-	entry = MethodInput.new()
-	entry.type = entry.Type.WAIT
-	entry.path = "hero.dev.wait_for_action"
-	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> bool:
-		print_rich("[color=green]wait_for_action[/color]: ", _is_action_active)
-		if not _is_action_active:
-			return false
-		print_rich("[color=green]connect[/color]")
-		action_deactivated.connect.call_deferred(func() -> void:
-			_sync.resume(), ConnectFlags.CONNECT_ONE_SHOT)
-		return true
-	_env.add_method_v2(entry)
-
-	entry = MethodInput.new()
-	entry.type = entry.Type.ACTION
+	entry = new_action()
+	entry.action_name = ActionNames.walk
 	entry.path = "hero.dev.walk"
-	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
+	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
 		print_rich("[color=green]walk[/color]")
-		action_pressed(StateNames.walk)
+		_action_pressed(ActionNames.walk, info)
+		info.entered.connect(_env.resume.bind())
+		return true
 	_env.add_method_v2(entry)
 
-	entry = MethodInput.new()
-	entry.type = entry.Type.ACTION
+	entry = new_action()
+	entry.action_name = ActionNames.left
 	entry.path = "hero.dev.face_left"
-	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
+	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
 		print_rich("[color=green]face_left[/color]")
-		action_release(StateNames.right)
-		action_pressed(StateNames.left)
+		action_release(ActionNames.right)
+		_action_pressed(ActionNames.left, info)
+		info.entered.connect(_env.resume.bind())
+		return true
 	_env.add_method_v2(entry)
 
-	entry = MethodInput.new()
-	entry.type = entry.Type.ACTION
+	entry = new_action()
+	entry.action_name = ActionNames.right
 	entry.path = "hero.dev.face_right"
-	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
+	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
 		print_rich("[color=green]face_right[/color]")
-		action_release(StateNames.left)
-		action_pressed(StateNames.right)
+		action_release(ActionNames.left)
+		_action_pressed(ActionNames.right, info)
+		info.entered.connect(_env.resume.bind())
+		return true
 	_env.add_method_v2(entry)
 
-	entry = MethodInput.new()
-	entry.type = entry.Type.MISC
+	entry = new_action()
+	entry.action_name = ActionNames.run
+	entry.path = "hero.dev.run"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
+		print_rich("[color=green]run[/color]")
+		_action_pressed(ActionNames.run, info)
+		info.entered.connect(_env.resume.bind())
+		return true
+	_env.add_method_v2(entry)
+
+	# ================
+	# One-Shot Actions
+	# ================
+	entry = new_action()
+	entry.action_name = ActionNames.jump
+	entry.one_shot = true
+	entry.path = "hero.dev.jump"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
+		print_rich("[color=green]jump[/color]")
+		_action_pressed(ActionNames.jump, info)
+		info.entered.connect(_env.resume.bind())
+		return true
+	_env.add_method_v2(entry)
+
+	entry = new_action()
+	entry.action_name = ActionNames.dash
+	entry.one_shot = true
+	entry.path = "hero.dev.dash"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
+		print_rich("[color=green]dash[/color]")
+		_action_pressed(ActionNames.dash, info)
+		info.entered.connect(_env.resume.bind())
+		info.entered.connect(print.bind("dash resume"))
+		return true
+	_env.add_method_v2(entry)
+
+	# ================
+	# Non-Actions
+	# ================
+	entry = new_action()
 	entry.path = "hero.dev.print"
 	entry.params_schema = [{
 		"name": "str",
 		"type": "String",
 		# "default": 1.0,
 	}]
-	entry.post_callable = func(info: MethodInput, args: Dictionary) -> void:
+	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
 		print_rich("[color=green]USER[/color]: ", args["str"])
 	_env.add_method_v2(entry)
 
-	entry = MethodInput.new()
-	entry.type = entry.Type.ACTION
-	entry.path = "hero.dev.run"
-	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
-		print_rich("[color=green]run[/color]")
-		action_pressed(StateNames.run)
+	entry = new_action()
+	entry.path = "hero.dev.wait_for_action"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
+		print_rich("[color=green]wait_for_action[/color]")
+		if not has_one_shot_actions():
+			return false
+		print_rich("[color=green]connect[/color]")
+		one_shot_action_finished.connect.call_deferred(func() -> void:
+			_env.resume(), ConnectFlags.CONNECT_ONE_SHOT)
+		return true
 	_env.add_method_v2(entry)
 
-	entry = MethodInput.new()
-	entry.type = entry.Type.ACTION
-	entry.path = "hero.dev.jump"
-	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
-		print_rich("[color=green]jump[/color]")
-		action_pressed(StateNames.jump)
-	_env.add_method_v2(entry)
+	entry = new_action()
+	entry.params_schema = [{
+		"name": "duration",
+		"type": "float",
+		# "default": 1.0,
+	}]
+	entry.path = "hero.dev.wait"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
+		if not args.has("duration"):
+			push_error("missing argument 'duration' for method {0}".format(info.path))
+			return false
+		state_can_resume = false
+		print_rich("[color=green]wait[/color]")
 
-	entry = MethodInput.new()
-	entry.type = entry.Type.ACTION
-	entry.path = "hero.dev.dash"
-	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
-		print_rich("[color=green]dash[/color]")
-		action_pressed(StateNames.dash)
-	_env.add_method_v2(entry)
-
-	entry = MethodInput.new()
-	entry.type = entry.Type.ACTION
-	entry.path = "hero.dev.idle"
-	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
-		print_rich("[color=green]idle[/color]")
-		action_release(StateNames.walk)
-		action_release(StateNames.run)
+		var duration: float = maxf(args.get("duration", 0.0) as float, EPSILON)
+		get_tree().create_timer(duration).timeout.connect(func() -> void:
+			_env.resume()
+			state_can_resume = true
+		)
+		return true
 	_env.add_method_v2(entry)
 
 
-var methods: Array[MethodInput] = []
-func _add_method(action: MethodInput) -> void:
-	methods.append(action)
-	_env.add_method(action)
+func new_action() -> MethodInput:
+	var action := MethodInput.new(_env)
 
-var prev: String = ""
-func _debug() -> void:
-	var lines_out: Array[String] = []
-	for action in methods:
-		var line := ""
-		line += "{0}.[color=cyan]{1}[/color]:".format([action.object_name, action.method_name])
-		for action_name: String in action.actions.keys():
-			var pressed: String = "[color=green]true" if is_action_pressed(action_name) else "[color=red]false"
-			line += " {0}={1}[/color]".format([action_name, pressed])
-		lines_out.append(line)
-
-	var out := "\n".join(lines_out)
-	if prev != out:
-		prev = out
-		print_rich("methods: \n",  out)
-#func _physics_process(delta: float) -> void:
-	#_debug()
-
-
-func _actions_press(actions: Dictionary[String, float]) -> void:
-	var tasks: Array[Callable] = []
-	#_sync.as_pending()
-	for action_name: String in actions.keys():
-		var task := _action_press.bind(action_name, actions[action_name] as float)
-		tasks.append(task)
-
-	await Awaiter.all(tasks)
-
-
-
-func _action_press(action_name: StringName, duration: float) -> void:
-	_actions[action_name] = true
-
-	duration = maxf(duration, EPSILON)
-
-	# TODO: what's better way to do this?
-	var timer := Timer.new()
-	timer.autostart = true
-	timer.one_shot = true
-	timer.wait_time = duration
-	_timers.append(timer)
-	add_child(timer)
-	await timer.timeout
-	_actions[action_name] = false
-	timer.queue_free()
+	return action
 
 
 func clear() -> void:
@@ -193,30 +172,34 @@ func clear() -> void:
 	_actions.clear()
 
 
-func action_as_active() -> void:
-	_is_action_active = true
-	action_activated.emit()
+func _action_pressed(action: StringName, input: MethodInput) -> void:
+	_actions.set(action, input)
+	if input.one_shot:
+		_one_shot_actions_count += 1
 
 
-func action_as_inactive() -> void:
-	_is_action_active = false
-	action_deactivated.emit()
+func get_action(action: StringName) -> MethodInput:
+	if OS.is_debug_build() and _actions.has(action):
+		push_warning("action named '{0}' not found.".format([action]))
+	return _actions.get(action, MethodInput.new(_env))
 
 
-func resume_if_waiting() -> void:
-	if env.is_paused() and state_can_resume:
-		env.poll()
+func has_one_shot_actions() -> bool:
+	return _one_shot_actions_count > 0
 
 # === Overrides ===
 
-func action_pressed(action: StringName) -> void:
-	print_rich("[color=cyan]action_pressed[/color](", action, ")")
-	_actions[action] = true
-
-
 func action_release(action: StringName) -> void:
 	print_rich("[color=cyan]action_release[/color](", action, ")")
-	_actions[action] = false
+	if not _actions.has(action):
+		return
+	var info := _actions[action]
+	if info.one_shot:
+		_one_shot_actions_count = max(0, _one_shot_actions_count - 1)
+		if _one_shot_actions_count == 0:
+			one_shot_action_finished.emit()
+	_actions[action].exit()
+	_actions.erase(action)
 
 
 func all_action_release(actions: Array[StringName]) -> void:
@@ -225,7 +208,7 @@ func all_action_release(actions: Array[StringName]) -> void:
 
 
 func is_action_pressed(action: StringName) -> bool:
-	return _actions.get(action, false)
+	return _actions.has(action)
 
 
 func is_any_action_pressed(actions: Array[StringName]) -> bool:

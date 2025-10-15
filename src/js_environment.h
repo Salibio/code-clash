@@ -36,15 +36,18 @@ public:
   bool is_paused() const;
   bool is_running() const;
 
-  duk_context *ctx{nullptr};
-  Dictionary object_methods{};
-  Ref<Semaphore> semaphore;
-  Ref<Thread> thread;
-  bool paused{false};
+  void pause();
+  void resume();
 
-  bool running{false};
-  bool first_run{true};
-  String pending_code{""};
+  duk_context *_ctx{nullptr};
+  Dictionary _object_methods{};
+  Ref<Semaphore> _semaphore;
+  Ref<Thread> _thread;
+  bool _paused{false};
+
+  bool _running{false};
+  bool _first_run{true};
+  String _pending_code{""};
 };
 
 } // namespace godot

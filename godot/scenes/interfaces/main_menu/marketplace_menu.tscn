@@ -1,0 +1,101 @@
+[gd_scene load_steps=8 format=3 uid="uid://bx2mxy3nbvdf4"]
+
+[ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="1_d0124"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="2_pkiln"]
+[ext_resource type="Texture2D" uid="uid://b7gn72x4lg4o8" path="res://assets/back button arrow/left-arrow-in-circular-button-black-symbol.png" id="3_s1lor"]
+[ext_resource type="Texture2D" uid="uid://d4mcg72x14726" path="res://assets/back button arrow/pressed_arrow-removebg-preview.png" id="4_1xkj0"]
+[ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/misc/ExitButton.gd" id="5_wq25h"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="6_tkddx"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6ne1q"]
+texture = ExtResource("1_d0124")
+
+[node name="MarketplaceMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bg" type="Panel" parent="."]
+modulate = Color(0.67069, 0.67069, 0.67069, 1)
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -37.0
+offset_top = -14.0
+offset_right = 40.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_6ne1q")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 9.0
+offset_right = 1105.0
+offset_bottom = 394.0
+theme_override_constants/separation = 200
+
+[node name="title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.960351, 0.960351, 0.960351, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("2_pkiln")
+theme_override_font_sizes/font_size = 50
+text = "MARKETPLACE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Exit_Button" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 40.0
+offset_right = 79.0
+offset_bottom = 105.0
+texture_normal = ExtResource("3_s1lor")
+texture_pressed = ExtResource("4_1xkj0")
+texture_disabled = ExtResource("4_1xkj0")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("5_wq25h")
+
+[node name="hover_fx" type="AudioStreamPlayer" parent="Exit_Button"]
+stream = ExtResource("6_tkddx")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 24.0
+offset_top = 263.0
+offset_right = 1105.0
+offset_bottom = 394.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/paragraph_spacing = -11
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("2_pkiln")
+theme_override_font_sizes/font_size = 60
+text = "UNDER DEVELOPMENT!
+WERE WORKING FOR UPDATE SOON!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="mouse_entered" from="Exit_Button" to="Exit_Button" method="_on_mouse_entered"]
+[connection signal="pressed" from="Exit_Button" to="Exit_Button" method="_on_pressed"]

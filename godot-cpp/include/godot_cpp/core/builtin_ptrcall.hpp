@@ -28,7 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#ifndef GODOT_BUILTIN_PTRCALL_HPP
+#define GODOT_BUILTIN_PTRCALL_HPP
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/object.hpp>
@@ -87,3 +88,5 @@ T _call_builtin_ptr_getter(const GDExtensionPtrGetter getter, GDExtensionConstTy
 } // namespace internal
 
 } // namespace godot
+
+#endif // GODOT_BUILTIN_PTRCALL_HPP

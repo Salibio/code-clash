@@ -28,7 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#ifndef GODOT_CLASS_DB_HPP
+#define GODOT_CLASS_DB_HPP
 
 #include <gdextension_interface.h>
 
@@ -369,3 +370,5 @@ MethodBind *ClassDB::bind_vararg_method(uint32_t p_flags, StringName p_name, M p
 } // namespace godot
 
 CLASSDB_SINGLETON_VARIANT_CAST;
+
+#endif // GODOT_CLASS_DB_HPP

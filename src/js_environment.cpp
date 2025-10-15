@@ -23,19 +23,24 @@ namespace godot {
 #define TYPE_ERROR_STRING                                                      \
   ("Invalid argument for '{0}()' function: argument {1} "                      \
    "should be '{2}' but is '{3}'.")
+#define FOR_EACH(TYPE, NAME, ARRAY, BODY) \
+  { \
+    Array array = ARRAY; \
+    TYPE NAME; \
+    for (int __i = 0; __i < array.size(); __i++, NAME = array[__i]) BODY \
+  }
 
 void JSEnvironment::_bind_methods() {
   ClassDB::bind_method(D_METHOD("add_method", "method_info"),
                        &JSEnvironment::add_method);
   ClassDB::bind_method(D_METHOD("add_method_v2", "method_info"),
                        &JSEnvironment::add_method_v2);
-  ClassDB::bind_method(D_METHOD("method", "resource"),
-                       &JSEnvironment::method);
+  ClassDB::bind_method(D_METHOD("method", "resource"), &JSEnvironment::method);
   ClassDB::bind_method(D_METHOD("eval", "code"), &JSEnvironment::eval);
   ClassDB::bind_method(D_METHOD("eval_async", "code"),
                        &JSEnvironment::eval_async);
-  ClassDB::bind_method(D_METHOD("poll"),
-                       &JSEnvironment::_method_finished);
+  ClassDB::bind_method(D_METHOD("pause"), &JSEnvironment::pause);
+  ClassDB::bind_method(D_METHOD("resume"), &JSEnvironment::resume);
 
   ClassDB::bind_method(D_METHOD("is_running"), &JSEnvironment::is_running);
   ClassDB::bind_method(D_METHOD("is_paused"), &JSEnvironment::is_paused);
@@ -45,9 +50,29 @@ void JSEnvironment::_bind_methods() {
   ADD_SIGNAL(MethodInfo("function_invoked"));
 }
 
-bool JSEnvironment::is_paused() const { return paused; }
+bool JSEnvironment::is_paused() const { return _paused; }
 
-bool JSEnvironment::is_running() const { return running; }
+bool JSEnvironment::is_running() const { return _running; }
+
+void JSEnvironment::pause() {
+  if (_paused) {
+    WARN_PRINT("Environment is already paused.");
+  } else {
+    _paused = true;
+    while (_semaphore->try_wait())
+      ;
+    _semaphore->wait();
+  }
+}
+
+void JSEnvironment::resume() {
+  if (_paused) {
+    _semaphore->post();
+    _paused = false;
+  } else {
+    WARN_PRINT("Environment isn't paused.");
+  }
+}
 
 void duk_print_error(duk_context *ctx) {
   duk_get_prop_string(ctx, -1, "name");
@@ -78,47 +103,50 @@ void duk_print_error(duk_context *ctx) {
 void JSEnvironment::eval(String code) {
   CharString code_cs = code.ascii();
 
-  duk_push_string(ctx, code_cs.ptr());
-  duk_push_string(ctx, "main");
+  duk_push_string(_ctx, code_cs.ptr());
+  duk_push_string(_ctx, "main");
 
-  if (duk_pcompile(ctx, 0) != DUK_EXEC_SUCCESS) {
-    duk_print_error(ctx);
+  if (duk_pcompile(_ctx, 0) != DUK_EXEC_SUCCESS) {
+    duk_print_error(_ctx);
   } else {
-    if (duk_pcall(ctx, 0) != DUK_EXEC_SUCCESS) {
-      duk_print_error(ctx);
+    if (duk_pcall(_ctx, 0) != DUK_EXEC_SUCCESS) {
+      duk_print_error(_ctx);
     }
   }
-  duk_pop(ctx);
+  duk_pop(_ctx);
 }
 
 void JSEnvironment::eval_async(String code) {
-  if (running) {
+  if (_running) {
     WARN_PRINT("Interpreter is already running!");
     return;
-  } else if (!first_run) {
-    thread->wait_to_finish();
+  } else if (!_first_run) {
+    _thread->wait_to_finish();
   }
 
-  running = true;
-  first_run = false;
-  thread->start(
+  _running = true;
+  _first_run = false;
+  _thread->start(
       callable_mp(this, &JSEnvironment::_eval_pending_code).bind(code));
 }
 
 void JSEnvironment::_eval_pending_code(String code) {
   call_deferred("emit_signal", "started");
   eval(code);
-  running = false;
+  _running = false;
   call_deferred("emit_signal", "finished");
 }
 
 void JSEnvironment::_method_finished() {
-  semaphore->post();
-  paused = false;
+  if (_paused) {
+    _semaphore->post();
+    _paused = false;
+  } else {
+    WARN_PRINT("Environment isn't paused.");
+  }
 }
 
-void JSEnvironment::method(Ref<Resource> resource) {
-}
+void JSEnvironment::method(Ref<Resource> resource) {}
 
 Dictionary obj_to_dict(duk_context *ctx);
 // Assuming there is [... array]
@@ -222,7 +250,7 @@ duk_ret_t c_function(duk_context *ctx) {
 
   String full_path = GD_FORMAT("{0}.{1}", object_name, method_name);
 
-  Ref<Resource> method_info = self->object_methods[full_path];
+  Ref<Resource> method_info = self->_object_methods[full_path];
   String dispatch_name = method_info->get("dispatch_name");
 
   // Node *end_state = Object::cast_to<Node>((Object
@@ -234,12 +262,12 @@ duk_ret_t c_function(duk_context *ctx) {
   Dictionary arguments{};
   Array params = method_info->get("params_schema");
   int expected_argc = 0;
-  for (Dictionary schema : params) {
+  FOR_EACH(Dictionary, schema, params, {
     expected_argc += 1;
     if (!schema.has("default_value")) {
       break;
     }
-  }
+  })
 
   auto type_to_string = [](duk_int_t type, bool is_array = false) -> String {
     switch (type) {
@@ -345,10 +373,10 @@ duk_ret_t c_function(duk_context *ctx) {
   // end_state->call_deferred("transition_to", dispatch_name);
   // print_line("dispatch_name: ", dispatch_name);
 
-  while (self->semaphore->try_wait())
+  while (self->_semaphore->try_wait())
     ;
   self->call_deferred("emit_signal", "function_invoked");
-  self->semaphore->wait();
+  self->_semaphore->wait();
   return 0;
 }
 
@@ -356,11 +384,11 @@ duk_ret_t c_function_v2(duk_context *ctx) {
   duk_push_current_function(ctx);
 
   duk_get_prop_string(ctx, -1, "__this");
-  JSEnvironment* self = static_cast<JSEnvironment*>(duk_to_pointer(ctx, -1));
+  JSEnvironment *self = static_cast<JSEnvironment *>(duk_to_pointer(ctx, -1));
   duk_pop(ctx);
 
   duk_get_prop_string(ctx, -1, "__path");
-  const char* path = duk_safe_to_string(ctx, -1);
+  const char *path = duk_safe_to_string(ctx, -1);
   duk_pop(ctx);
 
   duk_get_prop_string(ctx, -1, "__name");
@@ -370,18 +398,18 @@ duk_ret_t c_function_v2(duk_context *ctx) {
   // pop current function
   duk_pop(ctx);
 
-  Ref<Resource> method_info = self->object_methods[String(path)];
+  Ref<Resource> method_info = self->_object_methods[String(path)];
   String dispatch_name = method_info->get("dispatch_name");
 
   Dictionary arguments{};
   Array params = method_info->get("params_schema");
   int expected_argc = 0;
-  for (Dictionary schema : params) {
+  FOR_EACH(Dictionary, schema, params, {
     expected_argc += 1;
     if (!schema.has("default_value")) {
       break;
     }
-  }
+  })
 
   auto type_to_string = [](duk_int_t type, bool is_array = false) -> String {
     switch (type) {
@@ -405,9 +433,7 @@ duk_ret_t c_function_v2(duk_context *ctx) {
   };
 
   // TODO: user might add argument even if the method didnt accept any
-  // arguments.
   int argc = duk_get_top(ctx);
-  print_line(GD_FORMAT("invoking {0} with {1} arguments, with {2}", path, argc, arguments.size()));
   for (int i = 0; i < argc; i += 1) {
     Dictionary schema = params[i];
     String name = schema["name"];
@@ -426,16 +452,14 @@ duk_ret_t c_function_v2(duk_context *ctx) {
       if (schema["type"] == "Nil") {
         arguments[name] = Variant{};
       } else {
-        DUK_THROW(TYPE_ERROR_STRING, path, i + 1, "null",
-                  type_to_string(type));
+        DUK_THROW(TYPE_ERROR_STRING, path, i + 1, "null", type_to_string(type));
       }
       break;
     case DUK_TYPE_BOOLEAN:
       if (schema["type"] == "bool") {
         arguments[name] = duk_get_boolean(ctx, i);
       } else {
-        DUK_THROW(TYPE_ERROR_STRING, path, i + 1, "bool",
-                  type_to_string(type));
+        DUK_THROW(TYPE_ERROR_STRING, path, i + 1, "bool", type_to_string(type));
       }
       break;
     case DUK_TYPE_NUMBER:
@@ -471,45 +495,20 @@ duk_ret_t c_function_v2(duk_context *ctx) {
       break;
     }
   }
+  print_line(GD_FORMAT("invoking {0} with {1} arguments, with {2}", path, argc,
+                       arguments.size()));
 
-  int type = method_info->get("type");
+  Callable cb = method_info->get("callable");
 
-  Callable pre_cb = method_info->get("pre_callable");
-  Callable post_cb = method_info->get("post_callable");
-
-  const auto pause = [self]() {
-    self->paused = true;
-    while (self->semaphore->try_wait())
-      ;
-    self->semaphore->wait();
-  };
-
-  switch (type) {
-    case 0: { // ACTION
-      pre_cb.call(method_info, arguments);
-      print_line(GD_FORMAT("invoked: {0}", path));
-      pause();
-    } break;
-
-    case 1: { // WAIT
-      Variant ret = pre_cb.call(method_info, arguments);
-      self->call("emit_signal", "function_invoked");
-
-      if (ret.get_type() != Variant::Type::BOOL) {
-        break;
-      }
-
-      if (ret.booleanize()) {
-        pause();
-      }
-    } break;
-
-    case 2: { // MISC
-      post_cb.call(method_info, arguments);
-      print_line(GD_FORMAT("invoked: {0}", path));
-    } break;
+  Variant result = cb.call(method_info, arguments);
+  if (result.get_type() == Variant::Type::BOOL) {
+    if (result.booleanize()) {
+      print_line_rich("[color=green]JSEnv[/color]: paused");
+      self->pause();
+    }
   }
-  print_line(GD_FORMAT("callable invoked: {0}, {1}", path, pre_cb));
+  self->call("emit_signal", "function_invoked");
+  print_line(GD_FORMAT("callable invoked: {0}, {1}", path, cb));
 
   return 0;
 }
@@ -522,37 +521,38 @@ void JSEnvironment::add_method(Ref<Resource> method_info) {
       GD_FORMAT("{0}.{1}", String(object_name), String(method_name));
   print_line("registering: ", full_path);
 
-  if (object_methods.has(full_path)) {
+  if (_object_methods.has(full_path)) {
     print_error(full_path, " already exist. overriding it.");
   }
-  object_methods[full_path] = method_info;
+  _object_methods[full_path] = method_info;
 
-  duk_push_global_object(ctx);
+  duk_push_global_object(_ctx);
 
-  duk_push_pointer(ctx, this);
-  duk_put_prop_string(ctx, -2, "__this");
+  duk_push_pointer(_ctx, this);
+  duk_put_prop_string(_ctx, -2, "__this");
 
-  if (duk_has_prop_string(ctx, -1, object_name.ptr()) != 1) {
-    duk_push_object(ctx);
-    duk_push_string(ctx, object_name.ptr());
-    duk_put_prop_string(ctx, -2, "__name");
-    duk_put_prop_string(ctx, -2, object_name.ptr());
+  if (duk_has_prop_string(_ctx, -1, object_name.ptr()) != 1) {
+    duk_push_object(_ctx);
+    duk_push_string(_ctx, object_name.ptr());
+    duk_put_prop_string(_ctx, -2, "__name");
+    duk_put_prop_string(_ctx, -2, object_name.ptr());
   }
 
-  duk_get_prop_string(ctx, -1, object_name.ptr());
+  duk_get_prop_string(_ctx, -1, object_name.ptr());
   {
     duk_int_t argc = ((Array)method_info->get("params_schema")).size();
-    print_line(GD_FORMAT("{0}.{1}({2})", String(object_name), String(method_name), argc));
-    duk_push_c_function(ctx, c_function, argc);
-    duk_push_string(ctx, method_name.ptr());
-    duk_put_prop_string(ctx, -2, "__name");
-    duk_put_prop_string(ctx, -2, method_name.ptr());
+    print_line(GD_FORMAT("{0}.{1}({2})", String(object_name),
+                         String(method_name), argc));
+    duk_push_c_function(_ctx, c_function, argc);
+    duk_push_string(_ctx, method_name.ptr());
+    duk_put_prop_string(_ctx, -2, "__name");
+    duk_put_prop_string(_ctx, -2, method_name.ptr());
   }
-  duk_pop_2(ctx);
-  duk_push_global_object(ctx);
+  duk_pop_2(_ctx);
+  duk_push_global_object(_ctx);
   print_line("registered: ", full_path, " = ",
-             duk_has_prop_string(ctx, -1, object_name.ptr()));
-  duk_pop(ctx);
+             duk_has_prop_string(_ctx, -1, object_name.ptr()));
+  duk_pop(_ctx);
 }
 
 void JSEnvironment::add_method_v2(Ref<Resource> method_info) {
@@ -560,72 +560,72 @@ void JSEnvironment::add_method_v2(Ref<Resource> method_info) {
 
   print_line(GD_FORMAT("registering {0}()", path));
 
-  if (object_methods.has(path)) {
+  if (_object_methods.has(path)) {
     print_error(path, " already exist. overriding it.");
   }
-  object_methods[path] = method_info;
+  _object_methods[path] = method_info;
   print_line(GD_FORMAT("  method_info: {0}", method_info));
 
   Array method_path = path.split(".", false);
   const String method_name = method_path.pop_back();
 
-  duk_push_global_object(ctx);
+  duk_push_global_object(_ctx);
 
   // TODO: put full path of object to object itself.
-  for (const String component : method_path) {
-    if (duk_has_prop_string(ctx, -1, component.ascii()) != 1) {
-      duk_push_object(ctx);
+  FOR_EACH(String, component, method_path, {
+    if (duk_has_prop_string(_ctx, -1, component.ascii()) != 1) {
+      duk_push_object(_ctx);
 
       // object.__name = component
-      duk_push_string(ctx, component.ascii());
-      duk_put_prop_string(ctx, -2, "__name");
+      duk_push_string(_ctx, component.ascii());
+      duk_put_prop_string(_ctx, -2, "__name");
 
-      duk_put_prop_string(ctx, -2, component.ascii());
+      duk_put_prop_string(_ctx, -2, component.ascii());
     }
-    duk_get_prop_string(ctx, -1, component.ascii());
-  }
+    duk_get_prop_string(_ctx, -1, component.ascii());
+  });
 
   {
     const duk_int_t argc = ((Array)method_info->get("params_schema")).size();
     print_line(GD_FORMAT("  {0}({2})", path, argc));
 
     // &method_path.method_name
-    duk_push_c_function(ctx, c_function_v2, argc);
+    duk_push_c_function(_ctx, c_function_v2, argc);
 
     // method_name.__this = this
-    duk_push_pointer(ctx, static_cast<void*>(this));
-    duk_put_prop_string(ctx, -2, "__this");
+    duk_push_pointer(_ctx, static_cast<void *>(this));
+    duk_put_prop_string(_ctx, -2, "__this");
 
     // method_name.__path = path
-    duk_push_string(ctx, path.ascii());
-    duk_put_prop_string(ctx, -2, "__path");
+    duk_push_string(_ctx, path.ascii());
+    duk_put_prop_string(_ctx, -2, "__path");
 
     // method_name.__name = method_name
-    duk_push_string(ctx, method_name.ascii());
-    duk_put_prop_string(ctx, -2, "__name");
+    duk_push_string(_ctx, method_name.ascii());
+    duk_put_prop_string(_ctx, -2, "__name");
 
     // method_path.method_name = c_function_v2
-    duk_put_prop_string(ctx, -2, method_name.ascii());
+    duk_put_prop_string(_ctx, -2, method_name.ascii());
   }
 
-  duk_pop_n(ctx, duk_get_top(ctx));
+  duk_pop_n(_ctx, duk_get_top(_ctx));
   print_line(GD_FORMAT("  stack top {0}", path));
   print_line(GD_FORMAT("registered {0}()", path));
 }
 
 JSEnvironment::JSEnvironment() {
-  ctx = duk_create_heap_default();
-  semaphore.instantiate();
-  thread.instantiate();
+  _ctx = duk_create_heap_default();
+  _semaphore.instantiate();
+  _thread.instantiate();
 }
 
 JSEnvironment::~JSEnvironment() {
-  if (thread->is_started()) {
-    thread->wait_to_finish();
-    thread.unref();
+  if (_thread->is_started()) {
+    _thread->wait_to_finish();
+    _thread.unref();
   }
-  semaphore.unref();
-  duk_destroy_heap(ctx);
+  _semaphore.unref();
+  duk_destroy_heap(_ctx);
 }
 
 } // namespace godot

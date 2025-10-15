@@ -16,8 +16,7 @@ func _on_enter(_args) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	agent.input.resume_if_waiting()
-	agent.input.action_as_active()
+	agent.input.get_action(ActionNames.attack).enter()
 
 
 # This function is called each frame if the state is ACTIVE
@@ -42,7 +41,7 @@ func _before_exit(_args) -> void:
 # This function is called when the State exits
 # XSM exits the children first, then the root
 func _on_exit(_args) -> void:
-	agent.input.action_as_inactive()
+	agent.input.action_release(ActionNames.attack)
 
 
 # when StateAutomaticTimer timeout()

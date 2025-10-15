@@ -142,7 +142,7 @@ init_compiler() {
   local pacman="/c/msys64/usr/bin/pacman"
   "$pacman" -S mingw-w64-x86_64-gcc mingw-w64-i686-gcc --noconfirm --needed
 
-  ./just.sh --set build_library yes build-windows-x86_64
+  ./just.sh build_library=yes build-windows-x86_64
 }
 
 open() {
@@ -156,6 +156,13 @@ if [[ "$OS" = "Windows_NT" ]]; then
   init_godot
   init_scons
   init_compiler
+else
+  source /etc/os-release
+  if [[ $ID = "arch" ]]; then
+    sudo pacman -S --needed gcc just scons ccache fd entr
+  fi
+
+  ./just.sh build_library=yes build-linux
 fi
 
 echo

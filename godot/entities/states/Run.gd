@@ -20,7 +20,7 @@ func _on_enter(_args) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	agent.input.resume_if_waiting()
+	agent.input.get_action(ActionNames.run).enter()
 
 
 # This function is called each frame if the state is ACTIVE
@@ -28,19 +28,19 @@ func _after_enter(_args) -> void:
 func _on_update(_delta: float) -> void:
 	if agent.should_change_face_direction():
 		return
-	if agent.input.is_action_pressed(StateNames.walk):
+	if agent.input.is_action_pressed(ActionNames.walk):
 		change_state(&"Walk")
 		return
-	if agent.input.is_action_pressed(StateNames.jump):
+	if agent.input.is_action_pressed(ActionNames.jump):
 		change_state(&"Jump") # TODO: what?
 		return
-	if agent.input.is_action_pressed(StateNames.dash):
+	if agent.input.is_action_pressed(ActionNames.dash):
 		get_state(&"Dash").next_state = get_state(&"Run").get_path()
 		change_state(&"Dash")
 		return
 
 	agent.move_cmd.execute(agent, _delta)
-	if not agent.input.is_action_pressed(StateNames.run):
+	if not agent.input.is_action_pressed(ActionNames.run):
 		change_state(&"Idle")
 		return
 

@@ -1,0 +1,225 @@
+[gd_scene load_steps=20 format=3 uid="uid://c3jhsr15xuyuq"]
+
+[ext_resource type="Script" uid="uid://ci6ghu68cyk0x" path="res://godot/scenes/customization_menu.gd" id="1_kq2f1"]
+[ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="2_nfse4"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="3_e0wru"]
+[ext_resource type="Texture2D" uid="uid://b7gn72x4lg4o8" path="res://assets/back button arrow/left-arrow-in-circular-button-black-symbol.png" id="4_kgl4s"]
+[ext_resource type="Texture2D" uid="uid://d4mcg72x14726" path="res://assets/back button arrow/pressed_arrow-removebg-preview.png" id="5_2ilq8"]
+[ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/misc/ExitButton.gd" id="6_r4j3r"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="7_ffn0j"]
+[ext_resource type="Texture2D" uid="uid://cebjdqy0q0hfc" path="res://assets/new_avatar_profiles/Avatar_1.png" id="8_5g782"]
+[ext_resource type="Texture2D" uid="uid://bktavpmyb2e1v" path="res://assets/new_avatar_profiles/Avatar_2.png" id="9_njsr5"]
+[ext_resource type="Texture2D" uid="uid://dh4746n7hye7l" path="res://assets/new_avatar_profiles/Avatar_3.png" id="10_tt8lp"]
+[ext_resource type="Texture2D" uid="uid://bpsejqwxtbm60" path="res://assets/new_avatar_profiles/Avatar_4.png" id="11_papli"]
+[ext_resource type="Texture2D" uid="uid://dw0odhobh2oyr" path="res://assets/new_avatar_profiles/Avatar_5.png" id="12_m7j2o"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2w6sf"]
+texture = ExtResource("2_nfse4")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x3t8d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dxvok"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x3t8d"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p2thl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eif5d"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3wop"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[node name="CustomizationMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kq2f1")
+
+[node name="bg" type="Panel" parent="."]
+modulate = Color(0.670588, 0.670588, 0.670588, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2w6sf")
+
+[node name="title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 16.0
+offset_right = 864.0
+offset_bottom = 117.0
+theme_override_fonts/font = ExtResource("3_e0wru")
+theme_override_font_sizes/font_size = 50
+text = "CUSTOMIZE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+
+[node name="Exit_Button" type="TextureButton" parent="TouchScreenButton"]
+offset_left = 48.0
+offset_top = 54.0
+offset_right = 116.0
+offset_bottom = 119.0
+texture_normal = ExtResource("4_kgl4s")
+texture_pressed = ExtResource("5_2ilq8")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("6_r4j3r")
+
+[node name="hover_fx" type="AudioStreamPlayer" parent="TouchScreenButton/Exit_Button"]
+stream = ExtResource("7_ffn0j")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TouchScreenButton"]
+offset_left = 137.0
+offset_top = 134.0
+offset_right = 360.0
+offset_bottom = 223.0
+
+[node name="Name_title" type="Label" parent="TouchScreenButton/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e0wru")
+theme_override_font_sizes/font_size = 40
+text = "Name:"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TouchScreenButton"]
+offset_left = 231.0
+offset_top = 163.0
+offset_right = 931.0
+offset_bottom = 295.0
+theme_override_constants/separation = 20
+
+[node name="Input_Name" type="LineEdit" parent="TouchScreenButton/VBoxContainer"]
+custom_minimum_size = Vector2(700, 40)
+layout_mode = 2
+placeholder_text = "Enter Your Name"
+alignment = 1
+max_length = 250
+
+[node name="Name_Label" type="Label" parent="TouchScreenButton/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="TouchScreenButton"]
+offset_left = 414.0
+offset_top = 257.0
+offset_right = 728.0
+offset_bottom = 311.0
+theme_override_fonts/font = ExtResource("3_e0wru")
+theme_override_font_sizes/font_size = 40
+text = "Avatars"
+horizontal_alignment = 1
+autowrap_mode = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TouchScreenButton"]
+offset_left = 173.0
+offset_top = 330.0
+offset_right = 1059.0
+offset_bottom = 443.0
+theme_override_constants/separation = 50
+
+[node name="avatar1" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture_normal = ExtResource("8_5g782")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="avatar2" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
+custom_minimum_size = Vector2(120, 0)
+layout_direction = 1
+layout_mode = 2
+texture_normal = ExtResource("9_njsr5")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="avatar3" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture_normal = ExtResource("10_tt8lp")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="avatar4" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture_normal = ExtResource("11_papli")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="avatar5" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture_normal = ExtResource("12_m7j2o")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_left = 414.0
+offset_top = 533.0
+offset_right = 861.0
+offset_bottom = 621.0
+theme_override_constants/separation = 100
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="save" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_x3t8d")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_dxvok")
+theme_override_styles/hover = SubResource("StyleBoxFlat_x3t8d")
+text = "Save"
+
+[node name="Edit" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p2thl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_eif5d")
+theme_override_styles/hover = SubResource("StyleBoxFlat_d3wop")
+text = "Edit"
+
+[connection signal="mouse_entered" from="TouchScreenButton/Exit_Button" to="TouchScreenButton/Exit_Button" method="_on_mouse_entered"]
+[connection signal="pressed" from="TouchScreenButton/Exit_Button" to="TouchScreenButton/Exit_Button" method="_on_pressed"]

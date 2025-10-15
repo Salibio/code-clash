@@ -28,7 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#ifndef GODOT_QUATERNION_HPP
+#define GODOT_QUATERNION_HPP
 
 #include <godot_cpp/classes/global_constants.hpp>
 #include <godot_cpp/core/math.hpp>
@@ -142,24 +143,15 @@ struct [[nodiscard]] Quaternion {
 	}
 
 	Quaternion(const Vector3 &p_v0, const Vector3 &p_v1) { // Shortest arc.
-#ifdef MATH_CHECKS
-		ERR_FAIL_COND_MSG(p_v0.is_zero_approx() || p_v1.is_zero_approx(), "The vectors must not be zero.");
-#endif
-		constexpr real_t ALMOST_ONE = 1.0f - (real_t)CMP_EPSILON;
-		Vector3 n0 = p_v0.normalized();
-		Vector3 n1 = p_v1.normalized();
-		real_t d = n0.dot(n1);
-		if (Math::abs(d) > ALMOST_ONE) {
-			if (d >= 0) {
-				return; // Vectors are same.
-			}
-			Vector3 axis = n0.get_any_perpendicular();
-			x = axis.x;
-			y = axis.y;
-			z = axis.z;
+		Vector3 c = p_v0.cross(p_v1);
+		real_t d = p_v0.dot(p_v1);
+
+		if (d < -1.0f + (real_t)CMP_EPSILON) {
+			x = 0;
+			y = 1;
+			z = 0;
 			w = 0;
 		} else {
-			Vector3 c = n0.cross(n1);
 			real_t s = Math::sqrt((1.0f + d) * 2.0f);
 			real_t rs = 1.0f / s;
 
@@ -240,3 +232,5 @@ _FORCE_INLINE_ Quaternion operator*(real_t p_real, const Quaternion &p_quaternio
 }
 
 } // namespace godot
+
+#endif // GODOT_QUATERNION_HPP

@@ -9,36 +9,32 @@ exclude: |
 
 repos:
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v20.1.0
+    rev: v17.0.6
     hooks:
       - id: clang-format
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.4
+    rev: v0.4.4
     hooks:
       - id: ruff
         args: [--fix]
-        files: (\.py|SConstruct)$
-        types_or: [text]
       - id: ruff-format
-        files: (\.py|SConstruct)$
-        types_or: [text]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.14.1 # Latest version that supports Python 3.8
+    rev: v0.971
     hooks:
       - id: mypy
         files: \.py$
         types_or: [text]
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
+    rev: v2.3.0
     hooks:
       - id: codespell
         additional_dependencies: [tomli]
 
   - repo: https://github.com/BlankSpruce/gersemi
-    rev: 0.19.2
+    rev: 0.18.2
     hooks:
       - id: gersemi
         args: ["-i", "--no-warn-about-unknown-commands", "-l", "120"]

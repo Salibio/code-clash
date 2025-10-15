@@ -97,7 +97,10 @@ func take_damage(damage: float) -> void:
 		air_borne_state.change_state(&"Ground")
 
 
-func _on_hurt_box_area_entered(area: Area2D) -> void:
+func _on_hurt_box_area_entered(area: HitBox) -> void:
+	if area == null:
+		return
+
 	if _hit_box == area:
 		return
 
@@ -106,10 +109,10 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 
 
 func should_change_face_direction() -> bool:
-	if not input.is_any_action_pressed([StateNames.left, StateNames.right]):
+	if not input.is_any_action_pressed([ActionNames.left, ActionNames.right]):
 		return false
 
-	var new_direction := input.get_axis(StateNames.left, StateNames.right)
+	var new_direction := input.get_axis(ActionNames.left, ActionNames.right)
 	if is_equal_approx(_face_direction, new_direction):
 		return false
 	var current_state: State = (locomotion_state.get_active_substate() as State)
@@ -119,14 +122,17 @@ func should_change_face_direction() -> bool:
 
 
 func _update_face_direction() -> void:
-	if not input.is_any_action_pressed([StateNames.left, StateNames.right]):
+	if not input.is_any_action_pressed([ActionNames.left, ActionNames.right]):
 		return
 
-	var new_direction := input.get_axis(StateNames.left, StateNames.right)
+	var new_direction := input.get_axis(ActionNames.left, ActionNames.right)
 	if is_equal_approx(_face_direction, new_direction):
 		return
 
-	input.resume_if_waiting()
+	if input.is_action_pressed(ActionNames.left):
+		input.get_action(ActionNames.left).enter()
+	elif input.is_action_pressed(ActionNames.right):
+		input.get_action(ActionNames.right).enter()
 	_face_direction = new_direction
 
 	sprite.scale.x = _face_direction

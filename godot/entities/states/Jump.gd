@@ -26,16 +26,13 @@ func _on_enter(_args) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	agent.input.resume_if_waiting()
-	agent.input.action_as_active()
-	agent.input.action_release(StateNames.jump)
+	agent.input.get_action(ActionNames.jump).enter()
 
 # This function is called each frame if the state is ACTIVE
 # XSM updates the root first, then the children
 func _on_update(_delta: float) -> void:
 	if _jumping:
 		agent.jump_cmd.execute(agent, _delta)
-		print_rich("[color=green]jumping[/color]")
 
 		if agent.jump_cmd.is_completed(agent):
 			agent.anim_tree_fsm.travel(&"fall")
@@ -49,7 +46,6 @@ func _on_update(_delta: float) -> void:
 		var v := agent.jump_cmd.is_completed(agent)
 		agent.fall_cmd.execute(agent, _delta)
 
-		print_rich("[color=green]falling[/color]")
 		if agent.fall_cmd.is_completed(agent):
 			change_state(&"Ground")
 
@@ -69,7 +65,7 @@ func _before_exit(_args) -> void:
 # This function is called when the State exits
 # XSM exits the children first, then the root
 func _on_exit(_args) -> void:
-	agent.input.action_as_inactive()
+	agent.input.action_release(ActionNames.jump)
 
 
 # when StateAutomaticTimer timeout()

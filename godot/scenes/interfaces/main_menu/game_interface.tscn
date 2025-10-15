@@ -1,0 +1,448 @@
+[gd_scene load_steps=42 format=3 uid="uid://bk7f11a367b30"]
+
+[ext_resource type="Script" uid="uid://die52vksd3y0s" path="res://godot/scenes/interfaces/main_menu/game_interface.gd" id="1_xhn7x"]
+[ext_resource type="AudioStream" uid="uid://bpoqprrfs8rvk" path="res://assets/sound fx/Now-We-Ride(chosic.com).mp3" id="2_n57u1"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="3_q7k6y"]
+[ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="4_8ne74"]
+[ext_resource type="Texture2D" uid="uid://c3g15sa0we8jy" path="res://assets/BG_ICONS/setting_buttonjpg-removebg-preview.png" id="5_jgh1x"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="6_uwc6b"]
+[ext_resource type="Texture2D" uid="uid://bug6vgjq7lar5" path="res://assets/BG_ICONS/sound-removebg-preview.png" id="7_p2kfb"]
+[ext_resource type="Texture2D" uid="uid://du0e6kuyx2wjb" path="res://assets/BG_ICONS/mute-removebg-preview.png" id="8_b2wu4"]
+[ext_resource type="Script" uid="uid://6sng3ik14imx" path="res://godot/scripts/misc/MusicButton.gd" id="9_t1sbh"]
+[ext_resource type="Script" uid="uid://nstg1xhow2wm" path="res://godot/scripts/misc/MusicControl.gd" id="10_qo861"]
+[ext_resource type="Script" uid="uid://dou83cdo0k0tf" path="res://godot/scripts/misc/SfxButton.gd" id="11_5lhv7"]
+[ext_resource type="Script" uid="uid://dy3h71ihb277q" path="res://godot/scripts/misc/SfxControl.gd" id="12_1ew2u"]
+[ext_resource type="Script" uid="uid://chd0wepf54ipj" path="res://godot/scripts/misc/FullscreenControl.gd" id="13_148rw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xx5qh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lbm1t"]
+texture = ExtResource("5_jgh1x")
+region_rect = Rect2(102, 97, 150, 163)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xx5qh"]
+texture = ExtResource("5_jgh1x")
+region_rect = Rect2(102, 97, 150, 163)
+modulate_color = Color(0.847474, 0.847474, 0.847474, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_attwo"]
+texture = ExtResource("5_jgh1x")
+region_rect = Rect2(102, 97, 150, 163)
+modulate_color = Color(0.336608, 0.336608, 0.336608, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6yan0"]
+texture = ExtResource("5_jgh1x")
+region_rect = Rect2(102, 97, 150, 163)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ar3a4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p42tn"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g21cx"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qkfqt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5lt4e"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yayck"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_42238"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t1bx0"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q6spp"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tqpji"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mtesu"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dhjcj"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ntcm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boqgs"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l55gl"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0vlbu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38656"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6sso"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_qpjw1"]
+diffuse_texture = ExtResource("7_p2kfb")
+
+[sub_resource type="ImageTexture" id="ImageTexture_kukke"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_lbm1t"]
+color = Color(1, 1, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_xx5qh"]
+color = Color(0.355696, 0.690186, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_attwo"]
+color = Color(0.355696, 0.690186, 1, 1)
+thickness = 6
+
+[node name="GameInterface" type="CanvasLayer"]
+script = ExtResource("1_xhn7x")
+
+[node name="game fx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_n57u1")
+volume_db = -10.0
+autoplay = true
+bus = &"Music"
+
+[node name="hover_fx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_q7k6y")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = 4.0
+offset_right = -2.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bg" type="Sprite2D" parent="Control"]
+modulate = Color(0.670588, 0.670588, 0.670588, 1)
+position = Vector2(579, 319.938)
+scale = Vector2(1.58152, 1.59934)
+texture = ExtResource("4_8ne74")
+
+[node name="Setting_button" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -96.0
+offset_right = -32.0
+offset_bottom = -32.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_xx5qh")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_lbm1t")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xx5qh")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_attwo")
+theme_override_styles/normal = SubResource("StyleBoxTexture_6yan0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -146.0
+offset_top = -247.0
+offset_right = 169.0
+offset_bottom = 282.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+
+[node name="title" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 17
+theme_override_constants/paragraph_spacing = 14
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 64
+text = "Code Clash"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+max_lines_visible = 9
+
+[node name="MainButtons" type="VBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Play_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ar3a4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p42tn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g21cx")
+text = "Play"
+
+[node name="Custom_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qkfqt")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5lt4e")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_yayck")
+text = "Customization"
+
+[node name="Progress_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_42238")
+theme_override_styles/hover = SubResource("StyleBoxFlat_t1bx0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_q6spp")
+text = "Progress"
+
+[node name="LeadB_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tqpji")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mtesu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dhjcj")
+text = "Leaderboard"
+
+[node name="Marketplace_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7ntcm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_boqgs")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_l55gl")
+text = "Marketplace"
+
+[node name="Quit_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0vlbu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_38656")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i6sso")
+text = "Quit Game"
+
+[node name="Settings" type="Control" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG" type="Panel" parent="Control/Settings"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -283.0
+offset_top = -201.5
+offset_right = 283.0
+offset_bottom = 201.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Settings"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -133.5
+offset_top = -140.0
+offset_right = 133.5
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Control/Settings/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 60
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Settings/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Music_Button" type="TextureButton" parent="Control/Settings/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+toggle_mode = true
+shortcut_feedback = false
+texture_normal = SubResource("CanvasTexture_qpjw1")
+texture_pressed = ExtResource("8_b2wu4")
+texture_disabled = ExtResource("8_b2wu4")
+texture_focused = SubResource("ImageTexture_kukke")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("9_t1sbh")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Settings/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MusicControl" type="HSlider" parent="Control/Settings/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/slider = SubResource("StyleBoxLine_lbm1t")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_xx5qh")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_attwo")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("10_qo861")
+audio_bus_name = "Music"
+
+[node name="Music_label" type="Label" parent="Control/Settings/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 42
+text = "music"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/Settings/VBoxContainer"]
+layout_mode = 2
+
+[node name="SFX_Button" type="TextureButton" parent="Control/Settings/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+toggle_mode = true
+shortcut_feedback = false
+texture_normal = SubResource("CanvasTexture_qpjw1")
+texture_pressed = ExtResource("8_b2wu4")
+texture_disabled = ExtResource("8_b2wu4")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("11_5lhv7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Settings/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SFX_Label" type="Label" parent="Control/Settings/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 40
+text = "SFX"
+horizontal_alignment = 1
+
+[node name="SFXControl" type="HSlider" parent="Control/Settings/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/slider = SubResource("StyleBoxLine_lbm1t")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_xx5qh")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_attwo")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("12_1ew2u")
+audio_bus_name = "SFX"
+
+[node name="FullscreenControl" type="CheckButton" parent="Control/Settings/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+text = "FullScreen"
+script = ExtResource("13_148rw")
+
+[node name="Return_button" type="Button" parent="Control/Settings/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0vlbu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_38656")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i6sso")
+text = "Return to MainMenu"
+
+[node name="GreetingsMessage" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -72.0
+offset_right = 40.0
+offset_bottom = -24.0
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="mouse_entered" from="Control/Setting_button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/Setting_button" to="." method="_on_setting_button_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/MainButtons/Play_Button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/MainButtons/Play_Button" to="." method="_on_play_button_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/MainButtons/Custom_Button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/MainButtons/Custom_Button" to="." method="_on_custom_button_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/MainButtons/Progress_Button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/MainButtons/Progress_Button" to="." method="_on_progress_button_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/MainButtons/LeadB_Button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/MainButtons/LeadB_Button" to="." method="_on_lead_b_button_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/MainButtons/Marketplace_Button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/MainButtons/Marketplace_Button" to="." method="_on_marketplace_button_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/MainButtons/Quit_Button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/MainButtons/Quit_Button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Control/Settings/VBoxContainer/HBoxContainer/Music_Button" to="Control/Settings/VBoxContainer/HBoxContainer/Music_Button" method="_on_pressed"]
+[connection signal="value_changed" from="Control/Settings/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" to="Control/Settings/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" method="_on_value_changed"]
+[connection signal="pressed" from="Control/Settings/VBoxContainer/HBoxContainer2/SFX_Button" to="Control/Settings/VBoxContainer/HBoxContainer2/SFX_Button" method="_on_pressed"]
+[connection signal="value_changed" from="Control/Settings/VBoxContainer/HBoxContainer2/VBoxContainer/SFXControl" to="Control/Settings/VBoxContainer/HBoxContainer2/VBoxContainer/SFXControl" method="_on_value_changed"]
+[connection signal="toggled" from="Control/Settings/VBoxContainer/FullscreenControl" to="Control/Settings/VBoxContainer/FullscreenControl" method="_on_toggled"]
+[connection signal="mouse_entered" from="Control/Settings/VBoxContainer/Return_button" to="." method="_on_return_button_mouse_entered"]
+[connection signal="pressed" from="Control/Settings/VBoxContainer/Return_button" to="." method="_on_return_button_pressed"]

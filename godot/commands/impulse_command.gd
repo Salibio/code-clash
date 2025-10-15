@@ -26,7 +26,6 @@ func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 
 
 func execute(actor: CharacterBody2D, delta: float) -> void:
-	print_rich("[color=red]STATUS[/color]: ", actor.velocity.length(), "\t", last_velocity.length())
 	# apply deceleration opposite to the impulse direction
 	if actor.velocity.dot(direction) - last_velocity.length() > 0.0:
 		actor.velocity -= direction * acceleration * delta

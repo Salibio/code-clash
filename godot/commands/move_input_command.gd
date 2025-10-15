@@ -2,32 +2,32 @@ class_name MoveInputCommand
 extends Command
 
 
-var sprite: AnimatedSprite2D
-var speed: float = 0
-var direction: float
+var _sprite: AnimatedSprite2D
+var _speed: float = 0
+var _direction: float = 0
 
 
 func _init(sprite: AnimatedSprite2D) -> void:
-	self.sprite = sprite
+	_sprite = sprite
 
 
 func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
-	speed = get_var(msg, "speed", typeof(speed))
-	direction = get_var(msg, "direction", typeof(direction))
+	_speed = get_var(msg, "speed", typeof(_speed))
+	_direction = get_var(msg, "direction", typeof(_direction))
 
 	_to_active()
 
 
 func execute(actor: EntityPlayer, delta: float) -> void:
-	var direction: float = signf(direction)
+	var direction: float = signf(_direction)
 
 	if direction:
-		actor.velocity.x = move_toward(actor.velocity.x, direction * speed, speed * 0.5)
+		actor.velocity.x = move_toward(actor.velocity.x, _direction * _speed, _speed * 0.5)
 	else:
-		actor.velocity.x = move_toward(actor.velocity.x, 0, speed * 0.2)
+		actor.velocity.x = move_toward(actor.velocity.x, 0, _speed * 0.2)
 		if is_zero_approx(actor.velocity.x):
 			_to_complete()
 
 
 func change_direction(direction: float) -> void:
-	self.direction = signf(direction)
+	_direction = signf(direction)

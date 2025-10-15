@@ -1,0 +1,152 @@
+[gd_scene load_steps=14 format=3 uid="uid://coa2mfgcnskhv"]
+
+[ext_resource type="Script" uid="uid://060h6c2u0284" path="res://godot/scripts/misc/logs_menu.gd" id="1_kj61t"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="2_vb7pr"]
+[ext_resource type="AudioStream" uid="uid://u3iqpm1usc6g" path="res://assets/sound fx/Vopna(chosic.com).mp3" id="3_4wrde"]
+[ext_resource type="Texture2D" uid="uid://mytukq2xhijs" path="res://assets/backgrounds/Nuvem no céu com estilo pixel art Vetor….jpg" id="4_ribio"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="5_i2u83"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lpv3u"]
+texture = ExtResource("4_ribio")
+modulate_color = Color(1, 1, 1, 0.486275)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jkq16"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wm0df"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xipyu"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgv7v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m0d5q"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ndlwy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nj70s"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[node name="LogsMenu" type="CanvasLayer"]
+script = ExtResource("1_kj61t")
+
+[node name="hover_fx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_vb7pr")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="LoginBgSoundFx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_4wrde")
+volume_db = -6.0
+autoplay = true
+parameters/looping = true
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_lpv3u")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -94.5
+offset_right = 360.0
+offset_bottom = 94.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 80
+
+[node name="title" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 17
+theme_override_constants/paragraph_spacing = 14
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("5_i2u83")
+theme_override_font_sizes/font_size = 116
+text = "CODE CLASH"
+horizontal_alignment = 1
+vertical_alignment = 1
+max_lines_visible = 9
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="login_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_i2u83")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_jkq16")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_xipyu")
+text = "LOGIN"
+
+[node name="register_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_i2u83")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fgv7v")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_m0d5q")
+text = "REGISTER"
+
+[node name="offline_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_i2u83")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ndlwy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_nj70s")
+text = "OFFLINE"
+
+[node name="anon_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_i2u83")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ndlwy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_nj70s")
+text = "ANONYMOUS"
+
+[connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/login_button" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/login_button" to="." method="_on_login_botton_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/register_button" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/register_button" to="." method="_on_register_botton_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/offline_button" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/offline_button" to="." method="_on_offline_botton_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/anon_button" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/anon_button" to="." method="_on_anon_button_pressed"]

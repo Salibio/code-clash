@@ -1,0 +1,206 @@
+[gd_scene load_steps=17 format=3 uid="uid://cr14f5om1a0if"]
+
+[ext_resource type="Script" uid="uid://byixvjl1a40at" path="res://godot/scenes/interfaces/access_mode/sign_up_menu.gd" id="1_stwcb"]
+[ext_resource type="Texture2D" uid="uid://mytukq2xhijs" path="res://assets/backgrounds/Nuvem no céu com estilo pixel art Vetor….jpg" id="2_1jdwq"]
+[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/fonts/Pixel Game.otf" id="3_pd2u5"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_wry4w"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="5_1jdwq"]
+[ext_resource type="Texture2D" uid="uid://cqy7ijsfbx1cl" path="res://assets/show_password_icon/Eyes_close_icon-removebg-preview.png" id="6_lfvq1"]
+[ext_resource type="Texture2D" uid="uid://7th5kbtjtbsk" path="res://assets/show_password_icon/Eyes_open_icon-removebg-preview.png" id="7_1aqtv"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sraid"]
+texture = ExtResource("2_1jdwq")
+modulate_color = Color(1, 1, 1, 0.486275)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sraid"]
+bg_color = Color(0, 0, 0, 0.352941)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dubtc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dubtc"]
+bg_color = Color(0.376471, 0.556863, 0.960784, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akivp"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_akivp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sraid"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vtent"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p376f"]
+
+[node name="Auths" type="CanvasLayer"]
+script = ExtResource("1_stwcb")
+
+[node name="BG" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_sraid")
+
+[node name="title" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.498039)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -285.5
+offset_top = -62.5
+offset_right = 285.5
+offset_bottom = 62.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 17
+theme_override_constants/paragraph_spacing = 14
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("5_1jdwq")
+theme_override_font_sizes/font_size = 116
+text = "CODE CLASH"
+horizontal_alignment = 1
+vertical_alignment = 1
+max_lines_visible = 9
+
+[node name="fillbg" type="Panel" parent="."]
+offset_left = 328.0
+offset_top = 42.0
+offset_right = 832.0
+offset_bottom = 603.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_sraid")
+
+[node name="SignUpMenu" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -59.0
+offset_top = -187.5
+offset_right = 59.0
+offset_bottom = 187.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="login sign" type="Label" parent="SignUpMenu"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 8
+theme_override_constants/paragraph_spacing = 7
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 14
+theme_override_fonts/font = ExtResource("5_1jdwq")
+theme_override_font_sizes/font_size = 50
+text = "REGISTER To
+Code Clash
+Game"
+horizontal_alignment = 1
+justification_flags = 171
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SignUpMenu"]
+layout_mode = 2
+
+[node name="USER" type="Label" parent="SignUpMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_pd2u5")
+theme_override_font_sizes/font_size = 30
+text = "Email:"
+horizontal_alignment = 1
+justification_flags = 171
+
+[node name="Email" type="LineEdit" parent="SignUpMenu/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter your email"
+virtual_keyboard_type = 5
+clear_button_enabled = true
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="SignUpMenu"]
+layout_mode = 2
+
+[node name="PASSWORD" type="Label" parent="SignUpMenu/VBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_pd2u5")
+theme_override_font_sizes/font_size = 30
+text = "password:"
+horizontal_alignment = 1
+justification_flags = 171
+
+[node name="pass" type="LineEdit" parent="SignUpMenu/VBoxContainer2"]
+layout_mode = 2
+placeholder_text = "Enter your password"
+virtual_keyboard_type = 6
+secret = true
+
+[node name="RegisterButton" type="Button" parent="SignUpMenu"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_pd2u5")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_dubtc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_dubtc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_akivp")
+text = "REGISTER"
+
+[node name="AuthStatusLabel" type="RichTextLabel" parent="SignUpMenu"]
+layout_mode = 2
+fit_content = true
+horizontal_alignment = 1
+
+[node name="Back_Button" type="Button" parent="."]
+offset_left = 25.0
+offset_top = 9.0
+offset_right = 168.0
+offset_bottom = 79.0
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_pd2u5")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_akivp")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_sraid")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_vtent")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_p376f")
+text = "Back to Main Menu"
+
+[node name="hover_fx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_wry4w")
+volume_db = -15.0
+
+[node name="Show_password" type="TextureButton" parent="."]
+offset_left = 735.0
+offset_top = 429.0
+offset_right = 775.0
+offset_bottom = 469.0
+toggle_mode = true
+texture_normal = ExtResource("6_lfvq1")
+texture_pressed = ExtResource("7_1aqtv")
+texture_disabled = ExtResource("7_1aqtv")
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="mouse_entered" from="SignUpMenu/RegisterButton" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="SignUpMenu/RegisterButton" to="." method="_on_register_button_pressed"]
+[connection signal="mouse_entered" from="Back_Button" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="Back_Button" to="." method="_on_back_button_menu_pressed"]
+[connection signal="pressed" from="Show_password" to="." method="_on_show_password_pressed"]

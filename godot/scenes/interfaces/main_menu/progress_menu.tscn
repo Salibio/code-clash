@@ -1,0 +1,132 @@
+[gd_scene load_steps=8 format=3 uid="uid://7457h2qjgrv6"]
+
+<<<<<<< HEAD:godot/scenes/progress_menu.tscn
+[ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="1_8bqs5"]
+[ext_resource type="Texture2D" uid="uid://b7gn72x4lg4o8" path="res://assets/back button arrow/left-arrow-in-circular-button-black-symbol.png" id="2_8bqs5"]
+[ext_resource type="Texture2D" uid="uid://d4mcg72x14726" path="res://assets/back button arrow/pressed_arrow-removebg-preview.png" id="3_mk3cc"]
+[ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/ExitButton.gd" id="4_o6kfn"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="5_1vqhh"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="6_8bqs5"]
+=======
+[ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="1_bl44e"]
+[ext_resource type="Texture2D" uid="uid://db4aar84s0702" path="res://assets/BG_ICONS/PNG/BtnExitNoOpacity.png" id="2_4hrb7"]
+[ext_resource type="Texture2D" uid="uid://83hyp7e0n8p8" path="res://assets/BG_ICONS/PNG/BtnExitOpacity.png" id="3_7fnj1"]
+[ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/misc/ExitButton.gd" id="4_wfwng"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="5_8jhap"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="6_gaed5"]
+>>>>>>> 9e8780f55d0861e62e4a22aa6b4d0724fa892d24:godot/scenes/interfaces/main_menu/progress_menu.tscn
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8bqs5"]
+texture = ExtResource("1_bl44e")
+
+[node name="ProgressMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(-902, -400)
+
+[node name="bg" type="Panel" parent="."]
+modulate = Color(0.670588, 0.670588, 0.670588, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_8bqs5")
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="bg"]
+
+[node name="Exit_Button" type="TextureButton" parent="bg/TouchScreenButton"]
+offset_left = 48.0
+offset_top = 54.0
+offset_right = 116.0
+offset_bottom = 119.0
+<<<<<<< HEAD:godot/scenes/progress_menu.tscn
+texture_normal = ExtResource("2_8bqs5")
+texture_pressed = ExtResource("3_mk3cc")
+=======
+texture_normal = ExtResource("2_4hrb7")
+texture_pressed = ExtResource("3_7fnj1")
+>>>>>>> 9e8780f55d0861e62e4a22aa6b4d0724fa892d24:godot/scenes/interfaces/main_menu/progress_menu.tscn
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_wfwng")
+
+[node name="hover_fx" type="AudioStreamPlayer" parent="bg/TouchScreenButton/Exit_Button"]
+stream = ExtResource("5_8jhap")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="Quest_Panel" type="PanelContainer" parent="bg/TouchScreenButton"]
+offset_left = 140.0
+offset_top = 128.0
+offset_right = 542.0
+offset_bottom = 576.0
+
+[node name="Label" type="Label" parent="bg/TouchScreenButton/Quest_Panel"]
+layout_mode = 2
+
+[node name="Completed_panel" type="PanelContainer" parent="bg/TouchScreenButton"]
+offset_left = 625.0
+offset_top = 128.0
+offset_right = 1027.0
+offset_bottom = 576.0
+
+[node name="Label" type="Label" parent="bg/TouchScreenButton/Completed_panel"]
+layout_mode = 2
+
+[node name="title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 374.0
+offset_top = 23.0
+offset_right = 771.0
+offset_bottom = 100.0
+<<<<<<< HEAD:godot/scenes/progress_menu.tscn
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("6_8bqs5")
+=======
+theme_override_fonts/font = ExtResource("6_gaed5")
+>>>>>>> 9e8780f55d0861e62e4a22aa6b4d0724fa892d24:godot/scenes/interfaces/main_menu/progress_menu.tscn
+theme_override_font_sizes/font_size = 50
+text = "Progress"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 304.0
+offset_top = 152.0
+offset_right = 362.0
+offset_bottom = 175.0
+
+[node name="Quest" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_gaed5")
+theme_override_font_sizes/font_size = 30
+text = "Quest"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 759.0
+offset_top = 146.0
+offset_right = 890.0
+offset_bottom = 185.0
+
+[node name="Completed" type="Label" parent="HBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_gaed5")
+theme_override_font_sizes/font_size = 30
+text = "Completed"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="mouse_entered" from="bg/TouchScreenButton/Exit_Button" to="bg/TouchScreenButton/Exit_Button" method="_on_mouse_entered"]
+[connection signal="pressed" from="bg/TouchScreenButton/Exit_Button" to="bg/TouchScreenButton/Exit_Button" method="_on_pressed"]

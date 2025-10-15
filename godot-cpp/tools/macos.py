@@ -63,6 +63,14 @@ def generate(env):
         env.Append(CCFLAGS=["-isysroot", env["macos_sdk_path"]])
         env.Append(LINKFLAGS=["-isysroot", env["macos_sdk_path"]])
 
+    env.Append(
+        LINKFLAGS=[
+            "-framework",
+            "Cocoa",
+            "-Wl,-undefined,dynamic_lookup",
+        ]
+    )
+
     env.Append(CPPDEFINES=["MACOS_ENABLED", "UNIX_ENABLED"])
 
     # Refer to https://github.com/godotengine/godot/blob/master/platform/macos/detect.py

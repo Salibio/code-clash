@@ -12,19 +12,15 @@ var input: SimulateInput:
 var _pending_code: String = ""
 
 
-func _init(code_edit: TextEdit, run: Button) -> void:
+func _init(code_edit: TextEdit, run_btn: Button) -> void:
 	_code_edit = code_edit
-	_run = run
+	_run = run_btn
 
 	_input = SimulateInput.new(self)
 	_input.env.finished.connect(func() -> void:
 		_pending_code = "")
 
 	add_child(_input)
-
-
-func resume() -> void:
-	_input.env.poll()
 
 
 func ready(code: String) -> void:

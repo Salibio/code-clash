@@ -28,7 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#ifndef GODOT_GODOT_HPP
+#define GODOT_GODOT_HPP
 
 #include <gdextension_interface.h>
 
@@ -264,3 +265,5 @@ public:
 };
 
 } // namespace godot
+
+#endif // GODOT_GODOT_HPP

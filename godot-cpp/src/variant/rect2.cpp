@@ -211,31 +211,31 @@ next4:
 	real_t mina = maxa;
 
 	real_t dp = p_xform.columns[0].dot(xf_points2[1]);
-	maxa = MAX(dp, maxa);
-	mina = MIN(dp, mina);
+	maxa = Math::max(dp, maxa);
+	mina = Math::min(dp, mina);
 
 	dp = p_xform.columns[0].dot(xf_points2[2]);
-	maxa = MAX(dp, maxa);
-	mina = MIN(dp, mina);
+	maxa = Math::max(dp, maxa);
+	mina = Math::min(dp, mina);
 
 	dp = p_xform.columns[0].dot(xf_points2[3]);
-	maxa = MAX(dp, maxa);
-	mina = MIN(dp, mina);
+	maxa = Math::max(dp, maxa);
+	mina = Math::min(dp, mina);
 
 	real_t maxb = p_xform.columns[0].dot(xf_points[0]);
 	real_t minb = maxb;
 
 	dp = p_xform.columns[0].dot(xf_points[1]);
-	maxb = MAX(dp, maxb);
-	minb = MIN(dp, minb);
+	maxb = Math::max(dp, maxb);
+	minb = Math::min(dp, minb);
 
 	dp = p_xform.columns[0].dot(xf_points[2]);
-	maxb = MAX(dp, maxb);
-	minb = MIN(dp, minb);
+	maxb = Math::max(dp, maxb);
+	minb = Math::min(dp, minb);
 
 	dp = p_xform.columns[0].dot(xf_points[3]);
-	maxb = MAX(dp, maxb);
-	minb = MIN(dp, minb);
+	maxb = Math::max(dp, maxb);
+	minb = Math::min(dp, minb);
 
 	if (mina > maxb) {
 		return false;
@@ -248,31 +248,31 @@ next4:
 	mina = maxa;
 
 	dp = p_xform.columns[1].dot(xf_points2[1]);
-	maxa = MAX(dp, maxa);
-	mina = MIN(dp, mina);
+	maxa = Math::max(dp, maxa);
+	mina = Math::min(dp, mina);
 
 	dp = p_xform.columns[1].dot(xf_points2[2]);
-	maxa = MAX(dp, maxa);
-	mina = MIN(dp, mina);
+	maxa = Math::max(dp, maxa);
+	mina = Math::min(dp, mina);
 
 	dp = p_xform.columns[1].dot(xf_points2[3]);
-	maxa = MAX(dp, maxa);
-	mina = MIN(dp, mina);
+	maxa = Math::max(dp, maxa);
+	mina = Math::min(dp, mina);
 
 	maxb = p_xform.columns[1].dot(xf_points[0]);
 	minb = maxb;
 
 	dp = p_xform.columns[1].dot(xf_points[1]);
-	maxb = MAX(dp, maxb);
-	minb = MIN(dp, minb);
+	maxb = Math::max(dp, maxb);
+	minb = Math::min(dp, minb);
 
 	dp = p_xform.columns[1].dot(xf_points[2]);
-	maxb = MAX(dp, maxb);
-	minb = MIN(dp, minb);
+	maxb = Math::max(dp, maxb);
+	minb = Math::min(dp, minb);
 
 	dp = p_xform.columns[1].dot(xf_points[3]);
-	maxb = MAX(dp, maxb);
-	minb = MIN(dp, minb);
+	maxb = Math::max(dp, maxb);
+	minb = Math::min(dp, minb);
 
 	if (mina > maxb) {
 		return false;
@@ -285,7 +285,7 @@ next4:
 }
 
 Rect2::operator String() const {
-	return "[P: " + position.operator String() + ", S: " + size.operator String() + "]";
+	return "[P: " + position.operator String() + ", S: " + size + "]";
 }
 
 Rect2::operator Rect2i() const {

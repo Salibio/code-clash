@@ -28,7 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#ifndef GODOT_CALLABLE_CUSTOM_HPP
+#define GODOT_CALLABLE_CUSTOM_HPP
 
 #include <godot_cpp/core/object_id.hpp>
 #include <godot_cpp/variant/string_name.hpp>
@@ -60,3 +61,5 @@ public:
 };
 
 } // namespace godot
+
+#endif // GODOT_CALLABLE_CUSTOM_HPP

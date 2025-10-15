@@ -1,7 +1,5 @@
 extends Control
 
-@onready var input_name: LineEdit = $TouchScreenButton/VBoxContainer/input_name
-@onready var name_label: Label = $TouchScreenButton/VBoxContainer/name
 @onready var inputname: LineEdit = $TouchScreenButton/VBoxContainer/Input_Name
 @onready var namelabel: Label = $TouchScreenButton/VBoxContainer/Name_Label
 

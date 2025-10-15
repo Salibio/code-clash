@@ -41,10 +41,10 @@ var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
 var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
 var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
 
-func update_jump_properties(jump_height: float, jump_time_to_peak: float, jump_time_to_descent: float) -> void:
-	jump_velocity = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
-	jump_gravity = ((-2.0 * jump_height) / (jump_time_to_peak    * jump_time_to_peak   )) * -1.0
-	fall_gravity = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
+func update_jump_properties(p_jump_height: float, p_jump_time_to_peak: float, p_jump_time_to_descent: float) -> void:
+	jump_velocity = ((2.0 * p_jump_height) / p_jump_time_to_peak) * -1.0
+	jump_gravity = ((-2.0 * p_jump_height) / (p_jump_time_to_peak    * p_jump_time_to_peak   )) * -1.0
+	fall_gravity = ((-2.0 * p_jump_height) / (p_jump_time_to_descent * p_jump_time_to_descent)) * -1.0
 
 
 func update_properties() -> void:

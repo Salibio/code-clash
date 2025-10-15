@@ -28,11 +28,11 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#ifndef GODOT_BINDER_COMMON_HPP
+#define GODOT_BINDER_COMMON_HPP
 
 #include <gdextension_interface.h>
 
-#include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/core/method_ptrcall.hpp>
 #include <godot_cpp/core/type_info.hpp>
 
@@ -692,3 +692,5 @@ void call_with_ptr_args_static_method_ret(R (*p_method)(P...), const GDExtension
 
 #include <godot_cpp/classes/global_constants_binds.hpp>
 #include <godot_cpp/variant/builtin_binds.hpp>
+
+#endif // GODOT_BINDER_COMMON_HPP

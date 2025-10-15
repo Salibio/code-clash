@@ -28,7 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#ifndef GODOT_MEMORY_HPP
+#define GODOT_MEMORY_HPP
 
 #include <cstddef>
 #include <cstdint>
@@ -100,6 +101,12 @@ _ALWAYS_INLINE_ T *_post_initialize(T *p_obj) {
 
 #define memnew_allocator(m_class, m_allocator) (::godot::_pre_initialize<std::remove_pointer_t<decltype(new ("", "") m_class)>>(), ::godot::_post_initialize(new ("", m_allocator::alloc) m_class))
 #define memnew_placement(m_placement, m_class) (::godot::_pre_initialize<std::remove_pointer_t<decltype(new ("", "") m_class)>>(), ::godot::_post_initialize(new ("", m_placement, sizeof(m_class), "") m_class))
+
+// Generic comparator used in Map, List, etc.
+template <typename T>
+struct Comparator {
+	_ALWAYS_INLINE_ bool operator()(const T &p_a, const T &p_b) const { return (p_a < p_b); }
+};
 
 template <typename T>
 void memdelete(T *p_class, typename std::enable_if<!std::is_base_of_v<godot::Wrapped, T>>::type * = nullptr) {
@@ -209,3 +216,5 @@ struct _GlobalNilClass {
 };
 
 } // namespace godot
+
+#endif // GODOT_MEMORY_HPP

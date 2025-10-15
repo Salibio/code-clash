@@ -28,7 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#ifndef GODOT_METHOD_PTRCALL_HPP
+#define GODOT_METHOD_PTRCALL_HPP
 
 #include <godot_cpp/core/defs.hpp>
 
@@ -121,9 +122,6 @@ MAKE_PTRARGCONV(uint16_t, int64_t);
 MAKE_PTRARGCONV(int16_t, int64_t);
 MAKE_PTRARGCONV(uint32_t, int64_t);
 MAKE_PTRARGCONV(int32_t, int64_t);
-MAKE_PTRARGCONV(char16_t, int64_t);
-MAKE_PTRARGCONV(char32_t, int64_t);
-MAKE_PTRARGCONV(wchar_t, int64_t);
 MAKE_PTRARG(int64_t);
 MAKE_PTRARG(uint64_t);
 // Float types
@@ -236,3 +234,5 @@ GDVIRTUAL_NATIVE_PTR(float);
 GDVIRTUAL_NATIVE_PTR(double);
 
 } // namespace godot
+
+#endif // GODOT_METHOD_PTRCALL_HPP

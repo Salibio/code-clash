@@ -28,11 +28,10 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#ifndef GODOT_RB_SET_HPP
+#define GODOT_RB_SET_HPP
 
 #include <godot_cpp/core/memory.hpp>
-
-#include <initializer_list>
 
 // based on the very nice implementation of rb-trees by:
 // https://web.archive.org/web/20120507164830/https://web.mit.edu/~emin/www/source_code/red_black_tree/index.html
@@ -400,7 +399,7 @@ private:
 		new_node->right = _data._nil;
 		new_node->left = _data._nil;
 		new_node->value = p_value;
-		//new_node->data=_data;
+		// new_node->data=_data;
 
 		if (new_parent == _data._root || less(p_value, new_parent->value)) {
 			new_parent->left = new_node;
@@ -703,12 +702,6 @@ public:
 		_copy_from(p_set);
 	}
 
-	RBSet(std::initializer_list<T> p_init) {
-		for (const T &E : p_init) {
-			insert(E);
-		}
-	}
-
 	_FORCE_INLINE_ RBSet() {}
 
 	~RBSet() {
@@ -717,3 +710,5 @@ public:
 };
 
 } // namespace godot
+
+#endif // GODOT_RB_SET_HPP

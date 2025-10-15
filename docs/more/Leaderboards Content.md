@@ -1,7 +1,7 @@
 # Leaderboards
 
 ## Overview
-Leaderboards track player performance across different aspects of the game, from individual levels to overall coding mastery. This system encourages learning and improvement through friendly competition.
+Leaderboards track player performance across different aspects of the game, from individual levels to overall coding mastery. 
 
 ## Per-Level Scores
 
@@ -47,6 +47,7 @@ $\text{Normalized Speed} = 100 \times \frac{\text{Your Time}}{\text{Fastest Time
 - 50 = twice as slow as record
 - 0 = took much longer than record
 - Used for level rankings
+- $\text{Fastest Time}$ is the fastest time in users who completed that level.
 
 ### Normalized Accuracy
 
@@ -59,6 +60,7 @@ $\text{Normalized Accuracy} = 100 \times \frac{\text{Your Accuracy}}{\text{Best 
 - 100 = perfect accuracy
 - 0 = made errors in every line
 - Used for level rankings
+- $\text{Best Accuracy}$ is the fastest time in users who completed that level.
 
 ## Mastery Scores
 
@@ -71,6 +73,7 @@ $\text{Proficiency} = \frac{\text{Sum of Normalized Scores}}{\text{Number of Lev
 
 **Rules**:
 - Averaged Normalized Speed, Accuracy and Efficiency by the number of levels.
+- $\text{Number of Levels}$ is number of levels completed by that player.
 - Max 100 points per level
 
 ## Leaderboard Types

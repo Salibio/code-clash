@@ -10,7 +10,7 @@ extends EntityState
 # XSM enters the root first, the the children
 func _on_enter(_args) -> void:
 	super(_args)
-	agent.anim_tree_fsm.travel(StateNames.walk)
+	agent.anim_tree_fsm.travel(ActionNames.walk)
 
 	agent.move_cmd.initialize(agent, {
 		"speed": agent.stats.speed,
@@ -23,7 +23,8 @@ func _on_enter(_args) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	agent.input.resume_if_waiting()
+	var info := agent.input.get_action(ActionNames.walk)
+	info.enter()
 
 
 # This function is called each frame if the state is ACTIVE
@@ -31,19 +32,19 @@ func _after_enter(_args) -> void:
 func _on_update(_delta: float) -> void:
 	if agent.should_change_face_direction():
 		return
-	if agent.input.is_action_pressed(StateNames.run):
+	if agent.input.is_action_pressed(ActionNames.run):
 		change_state(&"Run")
 		return
-	if agent.input.is_action_pressed(StateNames.jump):
+	if agent.input.is_action_pressed(ActionNames.jump):
 		change_state(&"Jump")
 		return
-	if agent.input.is_action_pressed(StateNames.dash):
+	if agent.input.is_action_pressed(ActionNames.dash):
 		get_state(&"Dash").next_state = get_state(&"Walk").get_path()
 		change_state(&"Dash")
 		return
 
 	agent.move_cmd.execute(agent, _delta)
-	if not agent.input.is_action_pressed(StateNames.walk):
+	if not agent.input.is_action_pressed(ActionNames.walk):
 		change_state(&"Idle")
 		return
 

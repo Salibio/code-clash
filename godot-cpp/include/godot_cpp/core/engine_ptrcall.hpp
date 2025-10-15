@@ -28,7 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#ifndef GODOT_ENGINE_PTRCALL_HPP
+#define GODOT_ENGINE_PTRCALL_HPP
 
 #include <gdextension_interface.h>
 
@@ -55,10 +56,10 @@ O *_call_native_mb_ret_obj(const GDExtensionMethodBindPtr mb, void *instance, co
 
 template <typename R, typename... Args>
 R _call_native_mb_ret(const GDExtensionMethodBindPtr mb, void *instance, const Args &...args) {
-	typename PtrToArg<R>::EncodeT ret;
+	R ret;
 	std::array<GDExtensionConstTypePtr, sizeof...(Args)> mb_args = { { (GDExtensionConstTypePtr)args... } };
 	internal::gdextension_interface_object_method_bind_ptrcall(mb, instance, mb_args.data(), &ret);
-	return static_cast<R>(ret);
+	return ret;
 }
 
 template <typename... Args>
@@ -69,10 +70,10 @@ void _call_native_mb_no_ret(const GDExtensionMethodBindPtr mb, void *instance, c
 
 template <typename R, typename... Args>
 R _call_utility_ret(GDExtensionPtrUtilityFunction func, const Args &...args) {
-	typename PtrToArg<R>::EncodeT ret;
+	R ret;
 	std::array<GDExtensionConstTypePtr, sizeof...(Args)> mb_args = { { (GDExtensionConstTypePtr)args... } };
 	func(&ret, mb_args.data(), mb_args.size());
-	return static_cast<R>(ret);
+	return ret;
 }
 
 template <typename... Args>
@@ -92,3 +93,5 @@ void _call_utility_no_ret(const GDExtensionPtrUtilityFunction func, const Args &
 } // namespace internal
 
 } // namespace godot
+
+#endif // GODOT_ENGINE_PTRCALL_HPP

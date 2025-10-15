@@ -28,7 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#ifndef GODOT_EDITOR_PLUGIN_REGISTRATION_HPP
+#define GODOT_EDITOR_PLUGIN_REGISTRATION_HPP
 
 #include <godot_cpp/templates/vector.hpp>
 
@@ -57,3 +58,5 @@ public:
 };
 
 } // namespace godot
+
+#endif // GODOT_EDITOR_PLUGIN_REGISTRATION_HPP

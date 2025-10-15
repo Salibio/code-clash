@@ -28,7 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#ifndef GODOT_ARRAY_HELPERS_HPP
+#define GODOT_ARRAY_HELPERS_HPP
 
 namespace godot {
 namespace helpers {
@@ -50,3 +51,5 @@ T append_all(T appendable) {
 }
 } // namespace helpers
 } // namespace godot
+
+#endif // GODOT_ARRAY_HELPERS_HPP
