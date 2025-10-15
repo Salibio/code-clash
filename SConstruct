@@ -56,6 +56,8 @@ match env["platform"]:
     name = "bin/libgodotcpp{}{}".format(env["suffix"], env["SHLIBSUFFIX"])
     library = env.SharedLibrary(name, source=sources)
 
-CacheDir(".cache/build")
+if env["platform"] != "windows":
+  CacheDir(".cache/build")
+
 Default(library)
 
