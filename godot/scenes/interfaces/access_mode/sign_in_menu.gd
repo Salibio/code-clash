@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+
 @onready
 var hover_sfx: AudioStreamPlayer = $hover_fx
 
@@ -54,5 +55,31 @@ func _on_show_password_pressed() -> void:
 	#     show_pass_button.texture_normal = load("res://path/to/eye_closed.png")
 # --------------------------------------------------
 
-func _on_back_button_menu_pressed():
-	get_tree().change_scene_to_file("uid://coa2mfgcnskhv")
+func _on_forgot_password_button_pressed() -> void:
+	# 1. Get the email from the input field
+	var email = email_input.text.strip_edges()
+
+	# 2. Basic validation: check if the field is empty
+	if email.is_empty():
+		status.text = "Please enter your email first."
+		return
+
+	# 3. Update the UI status and disable the button (optional, but good practice)
+	status.text = "Sending password reset email..."
+	# login_btn.disabled = true # If you have a reference to the button
+
+	# 4. Call the asynchronous Supabase function and wait for it to complete
+	# [cite_start]The function returns an AuthTask, which is the object being awaited[cite: 1].
+	var auth_task = await Supabase.auth.reset_password_for_email(email)
+
+	# 5. Handle the result using the error property of the completed task
+
+	if auth_task.error != null:
+		# Failure: Display the error message from the Supabase server
+		status.text = % auth_task.error.message
+	else:
+		# Success: The request was successfully sent.
+		# [cite_start]The SupabaseAuth class handles emitting the reset_email_sent signal internally[cite: 1].
+		status.text = "Password reset email sent! Check your inbox."
+
+	# login_btn.disabled = false
