@@ -594,7 +594,7 @@ debug_mode = false
 target_path = NodePath("../..")
 timed = false
 remember_active_substate = false
-next_state = NodePath("../AirBorne")
+next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
 [node name="Idle" type="Node" parent="XSM/Locomotion"]
@@ -604,7 +604,7 @@ debug_mode = false
 target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
-next_state = NodePath("../Walk")
+next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
 [node name="Walk" type="Node" parent="XSM/Locomotion"]
@@ -614,7 +614,7 @@ debug_mode = false
 target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
-next_state = NodePath("../Run")
+next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
 [node name="Run" type="Node" parent="XSM/Locomotion"]
@@ -624,7 +624,7 @@ debug_mode = false
 target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
-next_state = NodePath("../Dash")
+next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
 [node name="Dash" type="Node" parent="XSM/Locomotion"]
@@ -634,7 +634,7 @@ debug_mode = false
 target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
-next_state = NodePath("../Attack")
+next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
 [node name="Attack" type="Node" parent="XSM/Locomotion"]
@@ -644,7 +644,7 @@ debug_mode = false
 target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
-next_state = NodePath("../Hurt")
+next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
 [node name="Hurt" type="Node" parent="XSM/Locomotion"]
@@ -654,7 +654,7 @@ debug_mode = false
 target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
-next_state = NodePath("../FaceDirection")
+next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
 [node name="FaceDirection" type="Node" parent="XSM/Locomotion"]
@@ -684,7 +684,7 @@ debug_mode = false
 target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
-next_state = NodePath("../Fall")
+next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
 [node name="Fall" type="Node" parent="XSM/AirBorne"]
@@ -694,7 +694,7 @@ debug_mode = false
 target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
-next_state = NodePath("../Jump")
+next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
 [node name="Jump" type="Node" parent="XSM/AirBorne"]

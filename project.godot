@@ -49,7 +49,6 @@ gdscript/warnings/constant_used_as_function=2
 [display]
 
 window/stretch/mode="viewport"
-window/stretch/aspect="ignore"
 
 [editor]
 

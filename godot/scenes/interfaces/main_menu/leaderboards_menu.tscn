@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://dd7ducja2fli4" path="res://godot/scenes/interfaces/main_menu/leaderboards_menu.gd" id="1_rc66e"]
 [ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="2_brdgf"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="3_3tq1i"]
-[ext_resource type="Texture2D" uid="uid://db4aar84s0702" path="res://assets/BG_ICONS/PNG/BtnExitNoOpacity.png" id="4_tfhlx"]
-[ext_resource type="Texture2D" uid="uid://83hyp7e0n8p8" path="res://assets/BG_ICONS/PNG/BtnExitOpacity.png" id="5_6kos5"]
+[ext_resource type="Texture2D" uid="uid://b7gn72x4lg4o8" path="res://assets/back button arrow/left-arrow-in-circular-button-black-symbol.png" id="4_rc66e"]
+[ext_resource type="Texture2D" uid="uid://d4mcg72x14726" path="res://assets/back button arrow/pressed_arrow-removebg-preview.png" id="5_brdgf"]
 [ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/misc/ExitButton.gd" id="6_rg6yl"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="7_pebw0"]
 
@@ -76,8 +76,8 @@ offset_left = 48.0
 offset_top = 54.0
 offset_right = 116.0
 offset_bottom = 119.0
-texture_normal = ExtResource("4_tfhlx")
-texture_pressed = ExtResource("5_6kos5")
+texture_normal = ExtResource("4_rc66e")
+texture_pressed = ExtResource("5_brdgf")
 ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("6_rg6yl")
